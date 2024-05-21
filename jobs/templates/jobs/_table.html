@@ -8,6 +8,7 @@
             <th scope="col">Techstack</th>
             <th scope="col">Status</th>
             <th scope="col">Applied At</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
@@ -21,6 +22,9 @@
                     <td>{{ job.pretty_techstack }}</td>
                     <td>{{ job.status }}</td>
                     <td>{{ job.applied_at }}</td>
+                    <td>
+                        <a href="{% url 'job_update' pk=job.pk %}" class="btn btn-primary btn-sm">Update</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

@@ -29,3 +29,9 @@ class JobCreateView(generic.CreateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_create.html"
+
+
+class JobUpdateView(generic.UpdateView):
+    model = Job
+    form_class = JobForm
+    template_name = "jobs/job_update.html"
