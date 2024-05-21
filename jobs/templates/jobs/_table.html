@@ -23,6 +23,8 @@
             {% endfor %}
         </tbody>
   </table>
+
+  {% include 'shared/_pagination.html' %}
 {% else %}
     {% include 'shared/_alert.html' with type='warning' message='No Jobs found!' %}
 {% endif %}
