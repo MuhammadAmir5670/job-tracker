@@ -14,7 +14,9 @@
             {% for job in job_list %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ job.title }}</td>
+                    <td>
+                        <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
+                    </td>
                     <td>{{ job.company }}</td>
                     <td>{{ job.pretty_techstack }}</td>
                     <td>{{ job.status }}</td>

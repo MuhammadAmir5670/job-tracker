@@ -16,3 +16,9 @@ class JobsListView(generic.ListView):
         page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
 
         return (paginator, page, object_list, has_other_pages)
+
+
+class JobDetailView(generic.DetailView):
+    model = Job
+    template_name = "jobs/job_detail.html"
+    context_object_name = "job"
