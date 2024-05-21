@@ -1,6 +1,7 @@
 from django.views import generic
 
 from jobs.models import Job
+from jobs.forms import JobForm
 
 
 class JobsListView(generic.ListView):
@@ -22,3 +23,9 @@ class JobDetailView(generic.DetailView):
     model = Job
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
+
+
+class JobCreateView(generic.CreateView):
+    model = Job
+    form_class = JobForm
+    template_name = "jobs/job_create.html"
