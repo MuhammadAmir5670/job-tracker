@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import URLValidator
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 from core.models import TimeStampedModel
 
@@ -38,6 +39,9 @@ class Job(TimeStampedModel):
     def __str__(self):
         """Unicode representation of Job."""
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("job_detail", kwargs={"pk": self.pk})
 
     def pretty_techstack(self):
         return ", ".join(self.tech_stacks.values_list("name", flat=True))

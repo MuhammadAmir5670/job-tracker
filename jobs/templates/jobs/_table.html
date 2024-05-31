@@ -8,17 +8,23 @@
             <th scope="col">Techstack</th>
             <th scope="col">Status</th>
             <th scope="col">Applied At</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
         <tbody>
             {% for job in job_list %}
                 <tr>
                     <th scope="row">{{ forloop.counter }}</th>
-                    <td>{{ job.title }}</td>
+                    <td>
+                        <a href="{{ job.get_absolute_url }}">{{ job.title }}</a>
+                    </td>
                     <td>{{ job.company }}</td>
                     <td>{{ job.pretty_techstack }}</td>
                     <td>{{ job.status }}</td>
                     <td>{{ job.applied_at }}</td>
+                    <td>
+                        <a href="{% url 'job_update' pk=job.pk %}" class="btn btn-primary btn-sm">Update</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

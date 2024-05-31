@@ -50,11 +50,13 @@ THIRD_PARTY_APPS = [
     'django_extensions',
     'allauth',
     'allauth.account',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 LOCAL_APPS = [
-  'accounts.apps.AccountsConfig',
-  'jobs.apps.JobsConfig',
+    'accounts.apps.AccountsConfig',
+    'jobs.apps.JobsConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -96,7 +98,9 @@ WSGI_APPLICATION = 'job_tracker.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': env.dj_db_url('DATABASE_URL', default='postgres://postgres:postgres@db/job-tracker')
+    'default': env.dj_db_url(
+        'DATABASE_URL', default='postgres://postgres:postgres@db/job-tracker'
+    )
 }
 
 
@@ -155,3 +159,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_UNIQUE_EMAIL = True
+
+
+# Django Crispy Forms
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"

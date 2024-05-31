@@ -1,6 +1,7 @@
 from django.views import generic
 
 from jobs.models import Job
+from jobs.forms import JobForm
 
 
 class JobsListView(generic.ListView):
@@ -16,3 +17,21 @@ class JobsListView(generic.ListView):
         page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
 
         return (paginator, page, object_list, has_other_pages)
+
+
+class JobDetailView(generic.DetailView):
+    model = Job
+    template_name = "jobs/job_detail.html"
+    context_object_name = "job"
+
+
+class JobCreateView(generic.CreateView):
+    model = Job
+    form_class = JobForm
+    template_name = "jobs/job_create.html"
+
+
+class JobUpdateView(generic.UpdateView):
+    model = Job
+    form_class = JobForm
+    template_name = "jobs/job_update.html"
