@@ -1,0 +1,30 @@
+{% if job_list %}
+    <table class="jobs-table table">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Techstack</th>
+            <th scope="col">Status</th>
+            <th scope="col">Applied At</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for job in job_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ job.title }}</td>
+                    <td>{{ job.company }}</td>
+                    <td>{{ job.pretty_techstack }}</td>
+                    <td>{{ job.status }}</td>
+                    <td>{{ job.applied_at }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+  </table>
+
+  {% include 'shared/_pagination.html' %}
+{% else %}
+    {% include 'shared/_alert.html' with type='warning' message='No Jobs found!' %}
+{% endif %}
