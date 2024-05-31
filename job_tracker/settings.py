@@ -52,6 +52,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_tomselect',
 ]
 
 LOCAL_APPS = [
