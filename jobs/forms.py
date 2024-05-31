@@ -7,7 +7,6 @@ from .models import Job
 
 class TechStackWidget(TomSelectMultipleWidget):
     search_lookups = ['name__icontains']
-    create_field = 'name'
 
 
 class JobForm(forms.ModelForm):
