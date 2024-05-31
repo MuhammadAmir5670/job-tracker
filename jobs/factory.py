@@ -1,7 +1,7 @@
 import factory
 from faker.providers import DynamicProvider
 
-from jobs.models import Job, TechStack
+from .models import Job, TechStack
 
 tech_stack_provider = DynamicProvider(
     provider_name="tech_stack",
