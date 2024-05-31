@@ -1,5 +1,4 @@
 import factory
-from factory.faker import faker
 from faker.providers import DynamicProvider
 
 from jobs.models import Job, TechStack
