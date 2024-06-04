@@ -1,0 +1,6 @@
+-r base.txt # includes the base.txt requirements file
+
+django-debug-toolbar==3.4.0
+django-extensions==3.2.3
+Werkzeug==3.0.3
+factory-boy==3.3.0
