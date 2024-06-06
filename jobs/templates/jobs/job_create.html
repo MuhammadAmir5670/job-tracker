@@ -6,6 +6,10 @@
     {{ block.super }} | Create Job
 {% endblock title %}
 
+{% block css %}
+    {{ form.media.css }}
+{% endblock css %}
+
 {% block content %}
     <div class="container my-4">
         <h1>Job Form</h1>
@@ -16,4 +20,8 @@
             <button type="submit" class="btn btn-success">Create</button>
         </form>
     </div>
+
+    {% block js %}
+        {{ form.media.js }}
+    {% endblock js %}
 {% endblock content %}

@@ -19,11 +19,16 @@ from django.urls import path, include
 from django.conf import settings
 from django.views.generic import RedirectView
 
+from django_tomselect.views import AutocompleteView
+
+
 urlpatterns = [
+    path("select2/", include("django_select2.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("jobs/", include("jobs.urls")),
     path("", RedirectView.as_view(url="/jobs"), name="root"),
+    path("autocomplete/", AutocompleteView.as_view(), name="autocomplete"),
 ]
 
 if settings.DEBUG:
