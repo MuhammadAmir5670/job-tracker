@@ -6,7 +6,7 @@ from .models import Job
 
 
 class TechStackWidget(TomSelectMultipleWidget):
-    search_lookups = ['name__icontains']
+    search_lookups = ["name__icontains"]
 
 
 class JobForm(forms.ModelForm):
@@ -14,6 +14,6 @@ class JobForm(forms.ModelForm):
         model = Job
         fields = "__all__"
         widgets = {
-            'tech_stacks': TechStackWidget,
-            'link': forms.TextInput,
+            "tech_stacks": TechStackWidget,
+            "link": forms.TextInput,
         }
