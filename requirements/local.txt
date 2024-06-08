@@ -6,4 +6,5 @@ Werkzeug==3.0.3
 factory-boy==3.3.0
 
 # linters and formatters
+pre-commit==3.7.1
 black==24.4.2
