@@ -1,5 +1,4 @@
 from django import forms
-
 from django_tomselect.widgets import TomSelectMultipleWidget
 
 from .models import Job

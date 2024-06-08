@@ -1,7 +1,7 @@
 from django.views import generic
 
-from .models import Job
 from .forms import JobForm
+from .models import Job
 
 
 class JobsListView(generic.ListView):
