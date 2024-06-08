@@ -7,3 +7,14 @@ extend-exclude = '''
     .+/migrations
 )/
 '''
+
+# ==== isort ====
+[tool.isort]
+profile = "django"
+combine_as_imports = true
+include_trailing_comma = true
+line_length = 119
+multi_line_output = 3
+known_first_party = ["job_tracker", "config"]
+skip = ["venv/"]
+skip_glob = ["**/migrations/*.py"]
