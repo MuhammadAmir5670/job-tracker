@@ -1,3 +1,4 @@
+# ==== Black ====
 # Full list of configuration options available here: https://black.readthedocs.io/en/stable/usage_and_configuration/
 [tool.black]
 line-length = 88
@@ -9,8 +10,8 @@ extend-exclude = '''
 )/
 '''
 
-# Full list of configuration options available here: https://pycqa.github.io/isort/docs/configuration/options.html
 # ==== isort ====
+# Full list of configuration options available here: https://pycqa.github.io/isort/docs/configuration/options.html
 [tool.isort]
 profile = "django"
 combine_as_imports = true
@@ -20,3 +21,9 @@ multi_line_output = 3
 known_first_party = ["job_tracker", "config"]
 skip = ["venv/"]
 skip_glob = ["**/migrations/*.py"]
+
+# ==== djlint ====
+# Full list of configuration options available here: https://www.djlint.com/docs/linter/
+[tool.djlint]
+profile = "django"
+ignore = "H031,H030"
