@@ -1,0 +1,15 @@
+{% extends "layouts/_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ block.super }} | Log activity
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <h1 class="my-4">Log Activity</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Log Activity</button>
+        </form>
+    </div>
+{% endblock content %}
