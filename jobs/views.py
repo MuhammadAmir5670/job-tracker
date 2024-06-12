@@ -1,5 +1,4 @@
-from typing import Any
-
+from django.db.models import Q
 from django.views import generic
 
 from activities.models import Activity
@@ -14,6 +13,22 @@ class JobsListView(generic.ListView):
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
 
+    def get_queryset(self):
+        query = self.request.GET.get("q", "")
+        queryset = super().get_queryset()
+
+        if query != "":
+            queryset = queryset.filter(
+                (Q(title__icontains=query) | Q(company__icontains=query))
+            )
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        return context
+
     def paginate_queryset(self, queryset, page_size):
         paginator, page, object_list, has_other_pages = super().paginate_queryset(queryset, page_size)
         page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
@@ -26,7 +41,7 @@ class JobDetailView(generic.DetailView):
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         activities = Activity.objects.select_related("activity_type", "creator")

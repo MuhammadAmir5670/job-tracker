@@ -8,6 +8,7 @@
             <h1 class="mb-3">Jobs</h1>
             <a href='{% url "job_create" %}' class="btn btn-primary">New Job</a>
         </div>
+        <div class="filters">{% include "shared/_search_field.html" %}</div>
         {% include "jobs/_table.html" %}
     </div>
 {% endblock content %}
