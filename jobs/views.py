@@ -1,4 +1,8 @@
+from typing import Any
+
 from django.views import generic
+
+from activities.models import Activity
 
 from .forms import JobForm
 from .models import Job
@@ -21,6 +25,14 @@ class JobDetailView(generic.DetailView):
     model = Job
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
+
+    def get_context_data(self, **kwargs) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+
+        activities = Activity.objects.select_related("activity_type", "creator")
+        context["activities"] = activities.filter(job_id=self.object.pk)
+
+        return context
 
 
 class JobCreateView(generic.CreateView):
