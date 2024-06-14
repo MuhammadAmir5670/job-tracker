@@ -3,7 +3,7 @@ from django.views import generic
 
 from activities.models import Activity
 
-from .forms import JobForm
+from .forms import JobFilterForm, JobForm
 from .models import Job
 
 
@@ -15,18 +15,23 @@ class JobsListView(generic.ListView):
 
     def get_queryset(self):
         query = self.request.GET.get("q", "")
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().prefetch_related("tech_stacks")
+        filter_form = JobFilterForm(self.request.GET)
 
         if query != "":
             queryset = queryset.filter(
                 (Q(title__icontains=query) | Q(company__icontains=query))
             )
 
+        if filter_form.is_valid():
+            queryset = filter_form.filter(queryset)
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["q"] = self.request.GET.get("q", "")
+        context["filter_form"] = JobFilterForm(self.request.GET)
         return context
 
     def paginate_queryset(self, queryset, page_size):
