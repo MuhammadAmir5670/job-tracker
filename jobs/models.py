@@ -30,9 +30,7 @@ class Job(TimeStampedModel):
     title = models.CharField(max_length=500)
     company = models.CharField(max_length=500)
     tech_stacks = models.ManyToManyField(TechStack)
-    status = models.CharField(
-        max_length=200, choices=Status.choices, default=Status.WISHLIST
-    )
+    status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     link = models.TextField(validators=[URLValidator()])
     applied_at = models.DateTimeField(auto_now_add=True)
 

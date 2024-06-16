@@ -1,7 +1,7 @@
 # ==== Black ====
 # Full list of configuration options available here: https://black.readthedocs.io/en/stable/usage_and_configuration/
 [tool.black]
-line-length = 88
+line-length = 119
 target-version = ['py311']
 include = '\.pyi?$'
 extend-exclude = '''

@@ -94,11 +94,7 @@ WSGI_APPLICATION = "job_tracker.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    "default": env.dj_db_url(
-        "DATABASE_URL", default="postgres://postgres:postgres@db/job-tracker"
-    )
-}
+DATABASES = {"default": env.dj_db_url("DATABASE_URL", default="postgres://postgres:postgres@db/job-tracker")}
 
 
 # Password validation
