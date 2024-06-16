@@ -1,0 +1,42 @@
+{% extends "layouts/_base.html" %}
+{% block title %}
+    {{ block.super }} | Activity Type List
+{% endblock title %}
+{% block content %}
+    <div class="container">
+        <div class="d-flex align-items-center justify-content-between">
+            <h1 class="mb-3">Activity Types</h1>
+            <a href='{% url "activity_type_create" %}' class="btn btn-primary">New Activity Type</a>
+        </div>
+        {% if activity_type_list %}
+            <table class="activity-types-table table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Created At</th>
+                        <th scope="col">Updated At</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for activity_type in activity_type_list %}
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ activity_type.name }}</td>
+                            <td>{{ activity_type.created_at }}</td>
+                            <td>{{ activity_type.updated_at }}</td>
+                            <td>
+                                <a href='{% url "activity_type_update" pk=activity_type.id %}'
+                                   class="btn btn-success">Update</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% include "shared/_pagination.html" %}
+        {% else %}
+            {% include "shared/_alert.html" with type="warning" message="No Activity Types found!" %}
+        {% endif %}
+    </div>
+{% endblock content %}

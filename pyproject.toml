@@ -13,12 +13,11 @@ extend-exclude = '''
 # ==== isort ====
 # Full list of configuration options available here: https://pycqa.github.io/isort/docs/configuration/options.html
 [tool.isort]
-profile = "django"
-combine_as_imports = true
-include_trailing_comma = true
+profile = "black"
 line_length = 119
-multi_line_output = 3
-known_first_party = ["job_tracker", "config"]
+known_first_party = [
+    "job_tracker"
+]
 skip = ["venv/"]
 skip_glob = ["**/migrations/*.py"]
 
