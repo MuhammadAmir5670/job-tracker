@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.views import generic
 
+from core.viewmixins import PaginationMixin, SearchableMixin
+
 from .forms import ActivityForm, ActivityTypeForm
 from .models import Activity, ActivityType
 
@@ -20,11 +22,11 @@ class ActivityCreateView(generic.CreateView):
         return super().form_valid(form)
 
 
-class ActivityTypeListView(generic.ListView):
+class ActivityTypeListView(PaginationMixin, SearchableMixin, generic.ListView):
     model = ActivityType
     template_name = "activities/activity_type_list.html"
     context_object_name = "activity_type_list"
-    paginate_by = 2
+    search_lookups = ("name__icontains",)
 
 
 class ActivityTypeCreateView(generic.CreateView):
