@@ -1,16 +1,18 @@
 from django.urls import reverse
 from django.views import generic
 
-from core.viewmixins import PaginationMixin, SearchableMixin
+from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
 from .forms import ActivityForm, ActivityTypeForm
 from .models import Activity, ActivityType
 
 
-class ActivityCreateView(generic.CreateView):
+class ActivityCreateView(FormActionMixin, generic.CreateView):
     model = Activity
     form_class = ActivityForm
     template_name = "activities/create_activity.html"
+    success_message = "successfully logged job activity!"
+    error_message = "error logging job activity!"
 
     def get_success_url(self) -> str:
         return reverse("job_detail", kwargs={"pk": self.kwargs["job_pk"]})
@@ -33,9 +35,13 @@ class ActivityTypeCreateView(generic.CreateView):
     model = ActivityType
     template_name = "activities/activity_type_create.html"
     form_class = ActivityTypeForm
+    success_message = "successfully created activity!"
+    error_message = "error creating activity!"
 
 
 class ActivityTypeUpdateView(generic.UpdateView):
     model = ActivityType
     template_name = "activities/activity_type_update.html"
     form_class = ActivityTypeForm
+    success_message = "successfully updated activity!"
+    error_message = "error updating activity!"
