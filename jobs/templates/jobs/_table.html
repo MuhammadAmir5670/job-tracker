@@ -1,15 +1,15 @@
 {% if job_list %}
     <table class="jobs-table table">
         <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Title</th>
-            <th scope="col">Company</th>
-            <th scope="col">Techstack</th>
-            <th scope="col">Status</th>
-            <th scope="col">Applied At</th>
-            <th scope="col">Actions</th>
-        </tr>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Company</th>
+                <th scope="col">Techstack</th>
+                <th scope="col">Status</th>
+                <th scope="col">Applied At</th>
+                <th scope="col">Actions</th>
+            </tr>
         </thead>
         <tbody>
             {% for job in job_list %}
@@ -23,14 +23,14 @@
                     <td>{{ job.status }}</td>
                     <td>{{ job.applied_at }}</td>
                     <td>
-                        <a href="{% url 'job_update' pk=job.pk %}" class="btn btn-primary btn-sm">Update</a>
+                        <a href="{% url 'job_update' pk=job.pk %}"
+                           class="btn btn-primary btn-sm">Update</a>
                     </td>
                 </tr>
             {% endfor %}
         </tbody>
-  </table>
-
-  {% include 'shared/_pagination.html' %}
+    </table>
+    {% include "shared/_pagination.html" %}
 {% else %}
-    {% include 'shared/_alert.html' with type='warning' message='No Jobs found!' %}
+    {% include "shared/_alert.html" with type="warning" message="No Jobs found!" %}
 {% endif %}

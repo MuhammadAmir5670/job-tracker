@@ -1,7 +1,7 @@
 from django.views import generic
 
-from .models import Job
 from .forms import JobForm
+from .models import Job
 
 
 class JobsListView(generic.ListView):
@@ -11,9 +11,7 @@ class JobsListView(generic.ListView):
     context_object_name = "job_list"
 
     def paginate_queryset(self, queryset, page_size):
-        paginator, page, object_list, has_other_pages = super().paginate_queryset(
-            queryset, page_size
-        )
+        paginator, page, object_list, has_other_pages = super().paginate_queryset(queryset, page_size)
         page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
 
         return (paginator, page, object_list, has_other_pages)

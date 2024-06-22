@@ -47,9 +47,7 @@ class JobFactory(factory.django.DjangoModelFactory):
 
     title = factory.Faker("job")
     company = factory.Faker("company")
-    status = factory.Faker(
-        "random_element", elements=[status[0] for status in Job.Status.choices]
-    )
+    status = factory.Faker("random_element", elements=[status[0] for status in Job.Status.choices])
     link = factory.Faker("url")
     applied_at = factory.Faker("date_time_this_year")
 
