@@ -1,9 +1,8 @@
 from django.urls import reverse
 from django.views import generic
 
-from activities.models import Activity
-
 from .forms import ActivityForm
+from .models import Activity
 
 
 class ActivityCreateView(generic.CreateView):
