@@ -22,15 +22,9 @@ class JobFilterForm(forms.Form):
     status_choices = [("", "------------")] + Job.Status.choices
 
     status = forms.ChoiceField(choices=status_choices, required=False)
-    start_date = forms.DateField(
-        required=False, widget=forms.DateInput(attrs={"type": "date"})
-    )
-    end_date = forms.DateField(
-        required=False, widget=forms.DateInput(attrs={"type": "date"})
-    )
-    tech_stacks = forms.ModelMultipleChoiceField(
-        TechStack.objects, required=False, widget=TechStackWidget()
-    )
+    start_date = forms.DateField(required=False, widget=forms.DateInput(attrs={"type": "date"}))
+    end_date = forms.DateField(required=False, widget=forms.DateInput(attrs={"type": "date"}))
+    tech_stacks = forms.ModelMultipleChoiceField(TechStack.objects, required=False, widget=TechStackWidget())
 
     def filter(self, queryset):
         if self.is_valid():
@@ -45,7 +39,7 @@ class JobFilterForm(forms.Form):
                 queryset = queryset.filter(applied_at__gte=start_date)
             if end_date:
                 queryset = queryset.filter(applied_at_lte=end_date)
-            if len(tech_stacks):
+            if tech_stacks:
                 queryset = queryset.filter(tech_stacks__in=tech_stacks)
 
         return queryset
