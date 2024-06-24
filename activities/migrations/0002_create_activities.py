@@ -39,7 +39,7 @@ def add_activity_types(apps, schema_editor):
 def remove_activity_types(apps, schema_editor):
     ActivityType = apps.get_model("activities", "ActivityType")
 
-    ActivityType.objects.filter(name__icontains=DEFAULT_ACTIVITIES).delete()
+    ActivityType.objects.filter(name__in=DEFAULT_ACTIVITIES).delete()
 
 
 class Migration(migrations.Migration):
