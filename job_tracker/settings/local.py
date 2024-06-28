@@ -35,3 +35,8 @@ if env("USE_DOCKER"):
 # ------------------------------------------------------------------------------
 # https://django-extensions.readthedocs.io/en/latest/installation_instructions.html#configuration
 INSTALLED_APPS += ["django_extensions"]  # noqa: F405
+
+# Django Email Backend
+# ------------------------------------------------------------------------------
+# https://docs.djangoproject.com/en/5.0/topics/email/#console-backend
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
