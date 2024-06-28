@@ -1,6 +1,21 @@
 <!-- As a link -->
-<nav class="navbar navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'root' %}">Job Tracker</a>
+<nav class="navbar navbar-dark bg-dark mb-5">
+    <div class="container">
+        <a class="navbar-brand" href='{% url "root" %}'>Job Tracker</a>
+        <span class="navbar-text">
+            {% if user.is_authenticated %}
+                <div class="d-flex align-items-center">
+                    <div class="flex">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+                             alt="Avatar Logo"
+                             width="40"
+                             height="auto"
+                             class="rounded-pill">
+                        <span class="d-inline-block ms-2">{{ user.email }}</span>
+                    </div>
+                    <a href='{% url "account_logout" %}' class="link ms-4">Logout</a>
+                </div>
+            {% endif %}
+        </span>
     </div>
 </nav>
