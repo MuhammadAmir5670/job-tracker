@@ -40,3 +40,6 @@ INSTALLED_APPS += ["django_extensions"]  # noqa: F405
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/5.0/topics/email/#console-backend
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+# Django All Auth App
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
