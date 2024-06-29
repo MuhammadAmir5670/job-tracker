@@ -13,7 +13,9 @@
     <div class="container my-4">
         <div class="d-flex align-items-center justify-content-between">
             <h1 class="mb-3">Jobs</h1>
-            <a href='{% url "job_create" %}' class="btn btn-primary">New Job</a>
+            {% if perms.jobs.add_job %}
+                <a href='{% url "job_create" %}' class="btn btn-primary">New Job</a>
+            {% endif %}
         </div>
         <div class="filters">
             <form>
