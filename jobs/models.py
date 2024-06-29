@@ -42,4 +42,4 @@ class Job(TimeStampedModel):
         return reverse("job_detail", kwargs={"pk": self.pk})
 
     def pretty_techstack(self):
-        return ", ".join(self.tech_stacks.values_list("name", flat=True))
+        return ", ".join([tech_stack.name for tech_stack in self.tech_stacks.all()])

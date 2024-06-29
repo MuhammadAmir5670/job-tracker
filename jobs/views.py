@@ -1,10 +1,9 @@
-from typing import Any
-
+from django.db.models import Q
 from django.views import generic
 
 from activities.models import Activity
 
-from .forms import JobForm
+from .forms import JobFilterForm, JobForm
 from .models import Job
 
 
@@ -13,6 +12,27 @@ class JobsListView(generic.ListView):
     paginate_by = 10
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
+
+    def get_queryset(self):
+        query = self.request.GET.get("q", "")
+        queryset = super().get_queryset().prefetch_related("tech_stacks")
+        filter_form = JobFilterForm(self.request.GET)
+
+        if query != "":
+            queryset = queryset.filter(
+                (Q(title__icontains=query) | Q(company__icontains=query))
+            )
+
+        if filter_form.is_valid():
+            queryset = filter_form.filter(queryset)
+
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q", "")
+        context["filter_form"] = JobFilterForm(self.request.GET)
+        return context
 
     def paginate_queryset(self, queryset, page_size):
         paginator, page, object_list, has_other_pages = super().paginate_queryset(queryset, page_size)
@@ -26,7 +46,7 @@ class JobDetailView(generic.DetailView):
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
 
-    def get_context_data(self, **kwargs) -> dict[str, Any]:
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         activities = Activity.objects.select_related("activity_type", "creator")
