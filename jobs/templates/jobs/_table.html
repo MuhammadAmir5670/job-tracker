@@ -23,8 +23,12 @@
                     <td>{{ job.status }}</td>
                     <td>{{ job.applied_at }}</td>
                     <td>
-                        <a href="{% url 'job_update' pk=job.pk %}"
-                           class="btn btn-primary btn-sm">Update</a>
+                        <a href='{% url "job_update" pk=job.pk %}'
+                           class="btn btn-outline-primary btn-sm"
+                           title="Update Job"><i class="bi bi-pencil-square"></i></a>
+                        <a href='{% url "log_activity" job_pk=job.pk %}'
+                           class="btn btn-outline-primary btn-sm ms-2"
+                           title="Log Activity"><i class="bi bi-box-arrow-in-right"></i></a>
                     </td>
                 </tr>
             {% endfor %}
