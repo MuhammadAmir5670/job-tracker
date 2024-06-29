@@ -1,4 +1,5 @@
 from django.urls import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import generic
 
 from activities.models import Activity
@@ -13,6 +14,7 @@ class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
     search_lookups = ("title__icontains", "company__icontains")
+    permission_required = "jobs.view_job"
 
     def get_queryset(self):
         queryset = super().get_queryset().prefetch_related("tech_stacks")
@@ -30,10 +32,11 @@ class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
         return context
 
 
-class JobDetailView(generic.DetailView):
+class JobDetailView(LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView):
     model = Job
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
+    permission_required = "jobs.view_job"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -44,15 +47,16 @@ class JobDetailView(generic.DetailView):
         return context
 
 
-class JobCreateView(FormActionMixin, generic.CreateView):
+class JobCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormActionMixin, generic.CreateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_create.html"
     success_message = "successfully created job!"
     error_message = "error creating job!"
+    permission_required = ("jobs.add_job", "jobs.view_job")
 
 
-class JobUpdateView(FormActionMixin, generic.UpdateView):
+class JobUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormActionMixin, generic.UpdateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_update.html"
