@@ -5,5 +5,7 @@
 {% block content %}
     <div class="container my-4">
         <h1>{{ job.title }}</h1>
+        <h3 class="my-4">Activities</h3>
+        {% include "jobs/_activities.html" with activity_list=activities %}
     </div>
 {% endblock content %}

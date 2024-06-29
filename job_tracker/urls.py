@@ -25,6 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
     path("jobs/", include("jobs.urls")),
+    path("activities/", include("activities.urls")),
     path("", RedirectView.as_view(url="/jobs"), name="root"),
     path("autocomplete/", AutocompleteView.as_view(), name="autocomplete"),
 ]
