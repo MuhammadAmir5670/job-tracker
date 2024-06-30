@@ -30,11 +30,13 @@ class ActivityTypeListView(PaginationMixin, SearchableMixin, generic.ListView):
 
 
 class ActivityTypeBaseView(generic.FormView):
-  model = ActivityType
-  form_class = ActivityTypeForm
+    model = ActivityType
+    form_class = ActivityTypeForm
+
 
 class ActivityTypeCreateView(ActivityTypeBaseView):
-  template_name = "activities/activity_type_create.html"
+    template_name = "activities/activity_type_create.html"
+
 
 class ActivityTypeUpdateView(ActivityTypeBaseView):
-  template_name = "activities/activity_type_update.html"
+    template_name = "activities/activity_type_update.html"
