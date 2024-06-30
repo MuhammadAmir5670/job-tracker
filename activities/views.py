@@ -31,16 +31,19 @@ class ActivityTypeListView(PaginationMixin, SearchableMixin, generic.ListView):
     search_lookups = ("name__icontains",)
 
 
-class ActivityTypeCreateView(generic.CreateView):
+class ActivityTypeBaseView(generic.FormView):
     model = ActivityType
+    form_class = ActivityTypeForm
+
+
+class ActivityTypeCreateView(ActivityTypeBaseView):
     template_name = "activities/activity_type_create.html"
     form_class = ActivityTypeForm
     success_message = "successfully created activity!"
     error_message = "error creating activity!"
 
 
-class ActivityTypeUpdateView(generic.UpdateView):
-    model = ActivityType
+class ActivityTypeUpdateView(ActivityTypeBaseView):
     template_name = "activities/activity_type_update.html"
     form_class = ActivityTypeForm
     success_message = "successfully updated activity!"

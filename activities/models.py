@@ -14,7 +14,6 @@ class ActivityType(TimeStampedModel):
     class Meta:
         """Meta definition for Activity."""
 
-        verbose_name = "Activity Type"
         verbose_name_plural = "Activity Types"
 
     def __str__(self):
@@ -30,17 +29,12 @@ class Activity(TimeStampedModel):
     due_datetime = models.DateTimeField(default=timezone.now)
     completed = models.BooleanField(default=False)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="activities")
-    activity_type = models.ForeignKey(
-        ActivityType, to_field="name", db_column="name", on_delete=models.CASCADE
-    )
-    creator = models.ForeignKey(
-        get_user_model(), on_delete=models.CASCADE, related_name="activities"
-    )
+    activity_type = models.ForeignKey(ActivityType, to_field="name", db_column="name", on_delete=models.PROTECT)
+    creator = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="activities")
 
     class Meta:
         """Meta definition for Activity."""
 
-        verbose_name = "Activity"
         verbose_name_plural = "Activities"
 
     def __str__(self):
