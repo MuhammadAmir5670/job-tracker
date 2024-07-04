@@ -1,7 +1,7 @@
 from django.views import generic
 
 from activities.models import Activity
-from core.viewmixins import PaginationMixin, SearchableMixin
+from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
 from .forms import JobFilterForm, JobForm
 from .models import Job
@@ -43,13 +43,17 @@ class JobDetailView(generic.DetailView):
         return context
 
 
-class JobCreateView(generic.CreateView):
+class JobCreateView(FormActionMixin, generic.CreateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_create.html"
+    success_message = "successfully created job!"
+    error_message = "error creating job!"
 
 
-class JobUpdateView(generic.UpdateView):
+class JobUpdateView(FormActionMixin, generic.UpdateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_update.html"
+    success_message = "successfully updated job!"
+    error_message = "error updating job!"

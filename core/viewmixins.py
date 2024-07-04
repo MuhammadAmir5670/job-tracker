@@ -1,6 +1,7 @@
 import operator
 from functools import reduce
 
+from django.contrib import messages
 from django.db.models import Q
 
 
@@ -34,3 +35,21 @@ class PaginationMixin:
         page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
 
         return (paginator, page, object_list, has_other_pages)
+
+
+class FormActionMixin:
+    @property
+    def success_message(self):
+        return NotImplemented
+
+    @property
+    def error_message(self):
+        return NotImplemented
+
+    def form_valid(self, form):
+        messages.info(self.request, self.success_message)
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, self.error_message)
+        return super().form_invalid(form)
