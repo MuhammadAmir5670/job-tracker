@@ -17,7 +17,7 @@
         </div>
         <div class="filters">
             <form>
-                {% include "shared/_search_field.html" %}
+                {% include "shared/_search_field.html" with placeholder="Search by Title or Company" %}
                 {{ filter_form|crispy }}
                 <button type="submit" class="btn btn-success">search</button>
                 <a class="btn btn-success"

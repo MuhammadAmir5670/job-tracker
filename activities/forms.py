@@ -1,6 +1,6 @@
 from django import forms
 
-from activities.models import Activity
+from activities.models import Activity, ActivityType
 
 
 class ActivityForm(forms.ModelForm):
@@ -9,3 +9,9 @@ class ActivityForm(forms.ModelForm):
     class Meta:
         model = Activity
         fields = ("title", "activity_type", "due_datetime", "completed", "note")
+
+
+class ActivityTypeForm(forms.ModelForm):
+    class Meta:
+        model = ActivityType
+        fields = "__all__"

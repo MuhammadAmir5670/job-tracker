@@ -1,0 +1,15 @@
+{% extends "layouts/_base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}
+    {{ block.super }} | Create Activity Type
+{% endblock title %}
+{% block content %}
+    <div class="container my-4">
+        <h1>Activity Type Form</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Create</button>
+        </form>
+    </div>
+{% endblock content %}

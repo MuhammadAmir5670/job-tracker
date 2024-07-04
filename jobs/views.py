@@ -1,27 +1,21 @@
-from django.db.models import Q
 from django.views import generic
 
 from activities.models import Activity
+from core.viewmixins import PaginationMixin, SearchableMixin
 
 from .forms import JobFilterForm, JobForm
 from .models import Job
 
 
-class JobsListView(generic.ListView):
+class JobsListView(PaginationMixin, SearchableMixin, generic.ListView):
     model = Job
-    paginate_by = 10
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
+    search_lookups = ("title__icontains", "company__icontains")
 
     def get_queryset(self):
-        query = self.request.GET.get("q", "")
         queryset = super().get_queryset().prefetch_related("tech_stacks")
         filter_form = JobFilterForm(self.request.GET)
-
-        if query != "":
-            queryset = queryset.filter(
-                (Q(title__icontains=query) | Q(company__icontains=query))
-            )
 
         if filter_form.is_valid():
             queryset = filter_form.filter(queryset)
@@ -30,15 +24,9 @@ class JobsListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["q"] = self.request.GET.get("q", "")
+
         context["filter_form"] = JobFilterForm(self.request.GET)
         return context
-
-    def paginate_queryset(self, queryset, page_size):
-        paginator, page, object_list, has_other_pages = super().paginate_queryset(queryset, page_size)
-        page.adjusted_elided_pages = paginator.get_elided_page_range(page.number)
-
-        return (paginator, page, object_list, has_other_pages)
 
 
 class JobDetailView(generic.DetailView):
