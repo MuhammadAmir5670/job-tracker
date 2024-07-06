@@ -26,16 +26,18 @@
                         <div class="d-flex gap-1">
                             {% if perms.jobs.change_job %}
                                 <a href='{% url "job_update" pk=job.pk %}'
-                                    class="btn btn-outline-success btn-sm"
-                                    title="Update Job"><i class="bi bi-pencil-square"></i></a>
+                                   class="btn btn-outline-success btn-sm"
+                                   title="Update Job"><i class="bi bi-pencil-square"></i></a>
                             {% endif %}
-                            <a href='{% url "job_delete" pk=job.pk %}'
-                               class="btn btn-outline-danger btn-sm"
-                               title="Delete Job"><i class="bi bi-trash-fill"></i></a>
+                            {% if perms.jobs.delete_job %}
+                                <a href='{% url "job_delete" pk=job.pk %}'
+                                   class="btn btn-outline-danger btn-sm"
+                                   title="Delete Job"><i class="bi bi-trash-fill"></i></a>
+                            {% endif %}
                             {% if perms.activities.log_activity %}
                                 <a href='{% url "log_activity" job_pk=job.pk %}'
-                                    class="btn btn-outline-primary btn-sm ms-2"
-                                    title="Log Activity"><i class="bi bi-box-arrow-in-right"></i></a>
+                                   class="btn btn-outline-primary btn-sm ms-2"
+                                   title="Log Activity"><i class="bi bi-box-arrow-in-right"></i></a>
                             {% endif %}
                         </div>
                     </td>
