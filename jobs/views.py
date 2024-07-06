@@ -1,15 +1,15 @@
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import generic
 
 from activities.models import Activity
+from core.mixins import AccessRequiredMixin
 from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
 from .forms import JobFilterForm, JobForm
 from .models import Job, JobSource
 
 
-class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
+class JobListView(AccessRequiredMixin, PaginationMixin, SearchableMixin, generic.ListView):
     model = Job
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
@@ -32,7 +32,7 @@ class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
         return context
 
 
-class JobDetailView(LoginRequiredMixin, PermissionRequiredMixin, generic.DetailView):
+class JobDetailView(AccessRequiredMixin, generic.DetailView):
     model = Job
     template_name = "jobs/job_detail.html"
     context_object_name = "job"
@@ -47,7 +47,7 @@ class JobDetailView(LoginRequiredMixin, PermissionRequiredMixin, generic.DetailV
         return context
 
 
-class JobCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormActionMixin, generic.CreateView):
+class JobCreateView(AccessRequiredMixin, FormActionMixin, generic.CreateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_create.html"
@@ -56,44 +56,51 @@ class JobCreateView(LoginRequiredMixin, PermissionRequiredMixin, FormActionMixin
     permission_required = ("jobs.add_job", "jobs.view_job")
 
 
-class JobUpdateView(LoginRequiredMixin, PermissionRequiredMixin, FormActionMixin, generic.UpdateView):
+class JobUpdateView(AccessRequiredMixin, FormActionMixin, generic.UpdateView):
     model = Job
     form_class = JobForm
     template_name = "jobs/job_update.html"
     success_message = "successfully updated job!"
     error_message = "error updating job!"
+    permission_required = ("jobs.view_job", "jobs.change_job")
 
 
-class JobDeleteView(generic.DeleteView):
+class JobDeleteView(AccessRequiredMixin, generic.DeleteView):
     model = Job
     template_name = "jobs/delete.html"
     success_url = reverse_lazy("job_list")
+    permission_required = ("jobs.view_job", "jobs.delete_job")
 
 
-class JobSourceListView(SearchableMixin, generic.ListView):
+class JobSourceListView(AccessRequiredMixin, SearchableMixin, generic.ListView):
     model = JobSource
     search_lookups = ("name__icontains",)
     template_name = "job_sources/list.html"
+    permission_required = "jobs.view_jobsource"
 
 
-class JobSourceDetailView(generic.DetailView):
+class JobSourceDetailView(AccessRequiredMixin, generic.DetailView):
     model = JobSource
     template_name = "job_sources/detail.html"
+    permission_required = "jobs.view_jobsource"
 
 
-class JobSourceCreateView(generic.CreateView):
+class JobSourceCreateView(AccessRequiredMixin, generic.CreateView):
     model = JobSource
     template_name = "job_sources/create.html"
     fields = ["name", "link_regex"]
+    permission_required = ("jobs.view_jobsource", "jobs.add_jobsource")
 
 
-class JobSourceUpdateView(generic.UpdateView):
+class JobSourceUpdateView(AccessRequiredMixin, generic.UpdateView):
     model = JobSource
     template_name = "job_sources/update.html"
     fields = ["name", "link_regex"]
+    permission_required = ("jobs.view_jobsource", "jobs.change_jobsource")
 
 
-class JobSourceDeleteView(generic.DeleteView):
+class JobSourceDeleteView(AccessRequiredMixin, generic.DeleteView):
     model = JobSource
     template_name = "job_sources/delete.html"
     success_url = reverse_lazy("job_source_list")
+    permission_required = ("jobs.view_jobsource", "jobs.delete_jobsource")
