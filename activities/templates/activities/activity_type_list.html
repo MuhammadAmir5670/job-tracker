@@ -31,7 +31,9 @@
                             <td>{{ activity_type.updated_at }}</td>
                             <td>
                                 <a href='{% url "activity_type_update" pk=activity_type.id %}'
-                                   class="btn btn-success">Update</a>
+                                   class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                                <a href='{% url "activity_type_delete" pk=activity_type.id %}'
+                                   class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
                             </td>
                         </tr>
                     {% endfor %}

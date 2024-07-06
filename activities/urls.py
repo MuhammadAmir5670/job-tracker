@@ -1,6 +1,12 @@
 from django.urls import path
 
-from .views import ActivityCreateView, ActivityTypeCreateView, ActivityTypeListView, ActivityTypeUpdateView
+from .views import (
+    ActivityCreateView,
+    ActivityTypeCreateView,
+    ActivityTypeDeleteView,
+    ActivityTypeListView,
+    ActivityTypeUpdateView,
+)
 
 urlpatterns = [
     path("<int:job_pk>", ActivityCreateView.as_view(), name="log_activity"),
@@ -10,5 +16,10 @@ urlpatterns = [
         "types/<int:pk>/update",
         ActivityTypeUpdateView.as_view(),
         name="activity_type_update",
+    ),
+    path(
+        "types/<int:pk>/delete",
+        ActivityTypeDeleteView.as_view(),
+        name="activity_type_delete",
     ),
 ]
