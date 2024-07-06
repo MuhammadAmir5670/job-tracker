@@ -8,9 +8,12 @@ from core.models import TimeStampedModel
 from .validators import valid_regex
 
 
-class JobSource(models.Model):
+class JobSource(TimeStampedModel):
     name = models.CharField(max_length=50)
     link_regex = models.CharField(max_length=500, blank=True, validators=[valid_regex])
+
+    class Meta:
+        ordering = ("-created_at",)
 
     def __str__(self):
         return self.name
