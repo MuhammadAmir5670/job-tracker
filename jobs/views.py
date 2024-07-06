@@ -1,10 +1,11 @@
+from django.urls import reverse_lazy
 from django.views import generic
 
 from activities.models import Activity
 from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
 from .forms import JobFilterForm, JobForm
-from .models import Job
+from .models import Job, JobSource
 
 
 class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
@@ -57,3 +58,32 @@ class JobUpdateView(FormActionMixin, generic.UpdateView):
     template_name = "jobs/job_update.html"
     success_message = "successfully updated job!"
     error_message = "error updating job!"
+
+
+class JobSourceListView(SearchableMixin, generic.ListView):
+    model = JobSource
+    search_lookups = ("name__icontains",)
+    template_name = "job_sources/list.html"
+
+
+class JobSourceDetailView(generic.DetailView):
+    model = JobSource
+    template_name = "job_sources/detail.html"
+
+
+class JobSourceCreateView(generic.CreateView):
+    model = JobSource
+    template_name = "job_sources/create.html"
+    fields = ["name", "link_regex"]
+
+
+class JobSourceUpdateView(generic.UpdateView):
+    model = JobSource
+    template_name = "job_sources/update.html"
+    fields = ["name", "link_regex"]
+
+
+class JobSourceDeleteView(generic.DeleteView):
+    model = JobSource
+    template_name = "job_sources/delete.html"
+    success_url = reverse_lazy("job_source_list")
