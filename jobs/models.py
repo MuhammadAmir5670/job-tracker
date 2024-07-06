@@ -19,7 +19,7 @@ class JobSource(TimeStampedModel):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("JobSource_detail", kwargs={"pk": self.pk})
+        return reverse("job_source_detail", kwargs={"pk": self.pk})
 
 
 class TechStack(TimeStampedModel):
