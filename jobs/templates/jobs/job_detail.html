@@ -5,7 +5,9 @@
 {% block content %}
     <div class="container my-4">
         <h1>{{ job.title }}</h1>
-        <h3 class="my-4">Activities</h3>
-        {% include "jobs/_activities.html" with activity_list=activities %}
+        {% if perms.activities.view_activitytype %}
+            <h3 class="my-4">Activities</h3>
+            {% include "jobs/_activities.html" with activity_list=activities %}
+        {% endif %}
     </div>
 {% endblock content %}

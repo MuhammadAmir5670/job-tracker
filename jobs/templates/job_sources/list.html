@@ -7,7 +7,9 @@
     <div class="container my-4">
         <div class="d-flex align-items-center justify-content-between">
             <h1 class="mb-3">Job Sources</h1>
-            <a href='{% url "job_source_create" %}' class="btn btn-primary">New Job Source</a>
+            {% if perms.jobs.add_jobsource %}
+                <a href='{% url "job_source_create" %}' class="btn btn-primary">New Job Source</a>
+            {% endif %}
         </div>
         <div class="filters">
             <form>
