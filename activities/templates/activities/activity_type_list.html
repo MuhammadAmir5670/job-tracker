@@ -6,7 +6,9 @@
     <div class="container">
         <div class="d-flex align-items-center justify-content-between">
             <h1 class="mb-3">Activity Types</h1>
-            <a href='{% url "activity_type_create" %}' class="btn btn-primary">New Activity Type</a>
+            {% if perms.activies.add_activitytype %}
+                <a href='{% url "activity_type_create" %}' class="btn btn-primary">New Activity Type</a>
+            {% endif %}
         </div>
         <form class="my-2" method="get">
             {% include "shared/_search_field.html" with placeholder="Search by name" %}
@@ -30,10 +32,14 @@
                             <td>{{ activity_type.created_at }}</td>
                             <td>{{ activity_type.updated_at }}</td>
                             <td>
-                                <a href='{% url "activity_type_update" pk=activity_type.id %}'
-                                   class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
-                                <a href='{% url "activity_type_delete" pk=activity_type.id %}'
-                                   class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                {% if perms.activities.change_activitytype %}
+                                    <a href='{% url "activity_type_update" pk=activity_type.id %}'
+                                       class="btn btn-success"><i class="bi bi-pencil-square"></i></a>
+                                {% endif %}
+                                {% if perms.activities.delete_activitytype %}
+                                    <a href='{% url "activity_type_delete" pk=activity_type.id %}'
+                                       class="btn btn-danger"><i class="bi bi-trash-fill"></i></a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
