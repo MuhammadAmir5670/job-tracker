@@ -35,6 +35,11 @@
                            href='{% url "job_source_list" %}'>Job Sources</a>
                     </li>
                 {% endif %}
+                <li class="nav-item">
+                    {% url "tech_stack_list" as tech_stack_list %}
+                    <a class="nav-link {% if tech_stack_list == request.path %}active{% endif %}"
+                       href='{% url "tech_stack_list" %}'>Tech Stacks</a>
+                </li>
             </ul>
         </div>
         <span class="navbar-text">
