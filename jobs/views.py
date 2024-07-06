@@ -7,7 +7,7 @@ from .forms import JobFilterForm, JobForm
 from .models import Job
 
 
-class JobsListView(PaginationMixin, SearchableMixin, generic.ListView):
+class JobListView(PaginationMixin, SearchableMixin, generic.ListView):
     model = Job
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
