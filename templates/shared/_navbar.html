@@ -14,10 +14,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    {% url "jobs_list" as jobs_list %}
-                    <a class="nav-link {% if jobs_list == request.path %}active{% endif %}"
+                    {% url "job_list" as job_list %}
+                    <a class="nav-link {% if job_list == request.path %}active{% endif %}"
                        aria-current="page"
-                       href='{{ jobs_list }}'>Jobs</a>
+                       href='{{ job_list }}'>Jobs</a>
                 </li>
                 <li class="nav-item">
                     {% url "activity_type_list" as activity_type_list %}
