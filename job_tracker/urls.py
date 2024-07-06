@@ -21,9 +21,9 @@ from django_tomselect.views import AutocompleteView
 
 urlpatterns = [
     path("", include("core.urls")),
+    path("", include("jobs.urls")),
     path("admin/", admin.site.urls),
     path("accounts/", include("accounts.urls")),
-    path("jobs/", include("jobs.urls")),
     path("activity/", include("activities.urls")),
     path("autocomplete/", AutocompleteView.as_view(), name="autocomplete"),
 ]

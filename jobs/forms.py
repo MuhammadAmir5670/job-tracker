@@ -1,3 +1,5 @@
+import re
+
 from django import forms
 from django_tomselect.widgets import TomSelectMultipleWidget
 
@@ -16,6 +18,21 @@ class JobForm(forms.ModelForm):
             "tech_stacks": TechStackWidget,
             "link": forms.TextInput,
         }
+
+    def clean(self):
+        self._validate_job_source_link()
+
+        return self.cleaned_data
+
+    def _validate_job_source_link(self):
+        job_link = self.cleaned_data.get("link")
+        job_source = self.cleaned_data.get("job_source")
+
+        if not job_source or not job_link:
+            return
+
+        if not re.match(job_source.link_regex, job_link):
+            self.add_error("link", f"Not a valid URL for the selected Job Source: {job_source}")
 
 
 class JobFilterForm(forms.Form):

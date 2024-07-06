@@ -1,0 +1,25 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}
+    {{ block.super }} | Job Source List
+{% endblock head_title %}
+{% block content %}
+    <div class="container my-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <h1 class="mb-3">Job Sources</h1>
+            <a href='{% url "job_source_create" %}' class="btn btn-primary">New Job Source</a>
+        </div>
+        <div class="filters">
+            <form>
+                {% include "shared/_search_field.html" with placeholder="Job Source Name" %}
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-success">search</button>
+                    <a class="btn btn-success"
+                       href='{% url "job_source_list" %}?page={{ page_obj.number }}'>Clear</a>
+                </div>
+            </form>
+        </div>
+        <hr />
+        {% include "job_sources/_table.html" %}
+    </div>
+{% endblock content %}
