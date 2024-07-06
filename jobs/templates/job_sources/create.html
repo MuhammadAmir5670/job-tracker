@@ -1,21 +1,15 @@
 {% extends "layouts/base.html" %}
 {% load crispy_forms_tags %}
 {% block head_title %}
-    {{ block.super }} | Create Job
+    {{ block.super }} | Create Job Source
 {% endblock head_title %}
-{% block css %}
-    {{ form.media.css }}
-{% endblock css %}
 {% block content %}
     <div class="container my-4">
-        <h1>Job Form</h1>
+        <h1>Job Source Form</h1>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
             <button type="submit" class="btn btn-success">Create</button>
         </form>
     </div>
-    {% block js %}
-        {{ form.media.js }}
-    {% endblock js %}
 {% endblock content %}

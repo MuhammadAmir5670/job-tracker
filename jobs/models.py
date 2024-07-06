@@ -5,6 +5,22 @@ from django.utils.translation import gettext_lazy as _
 
 from core.models import TimeStampedModel
 
+from .validators import valid_regex
+
+
+class JobSource(TimeStampedModel):
+    name = models.CharField(max_length=50)
+    link_regex = models.CharField(max_length=500, blank=True, validators=[valid_regex])
+
+    class Meta:
+        ordering = ("-created_at",)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse("job_source_detail", kwargs={"pk": self.pk})
+
 
 class TechStack(TimeStampedModel):
     """Model definition for TechStack."""
@@ -33,6 +49,10 @@ class Job(TimeStampedModel):
     status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     link = models.TextField(validators=[URLValidator()])
     applied_at = models.DateTimeField(auto_now_add=True)
+    job_source = models.ForeignKey(JobSource, on_delete=models.CASCADE, null=True)
+
+    class Meta:
+        ordering = ("-created_at",)
 
     def __str__(self):
         """Unicode representation of Job."""

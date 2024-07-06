@@ -1,0 +1,34 @@
+{% if jobsource_list %}
+    <table class="jobsource-table table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Link Regex</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for job_source in jobsource_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>
+                        <a href="{{ jobsource.get_absolute_url }}">{{ job_source.name }}</a>
+                    </td>
+                    <td>{{ job_source.link_regex|default:"None" }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            <a href='{% url "job_source_update" pk=job_source.pk %}'
+                               class="btn btn-primary btn-sm">Update</a>
+                            <a href='{% url "job_source_delete" pk=job_source.pk %}'
+                               class="btn btn-primary btn-sm">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include "shared/_pagination.html" %}
+{% else %}
+    {% include "shared/_alert.html" with type="warning" message="No Job Sources found!" %}
+{% endif %}

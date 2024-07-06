@@ -1,7 +1,7 @@
-{% extends "layouts/_base.html" %}
-{% block title %}
+{% extends "layouts/base.html" %}
+{% block head_title %}
     {{ block.super }} | Job Detail
-{% endblock title %}
+{% endblock head_title %}
 {% block content %}
     <div class="container my-4">
         <h1>{{ job.title }}</h1>
