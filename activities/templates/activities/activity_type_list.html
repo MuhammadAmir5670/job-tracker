@@ -8,7 +8,9 @@
             <h1 class="mb-3">Activity Types</h1>
             <a href='{% url "activity_type_create" %}' class="btn btn-primary">New Activity Type</a>
         </div>
-        {% include "shared/_search_field.html" with placeholder="Search by name" %}
+        <form class="my-2" method="get">
+            {% include "shared/_search_field.html" with placeholder="Search by name" %}
+        </form>
         {% if activity_type_list %}
             <table class="activity-types-table table">
                 <thead>
