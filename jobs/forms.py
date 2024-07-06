@@ -60,3 +60,9 @@ class JobFilterForm(forms.Form):
                 queryset = queryset.filter(tech_stacks__in=tech_stacks)
 
         return queryset
+
+
+class TechStackForm(forms.ModelForm):
+    class Meta:
+        model = TechStack
+        fields = "__all__"
