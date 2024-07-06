@@ -5,8 +5,8 @@ from activities.models import Activity
 from core.mixins import AccessRequiredMixin
 from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
-from .forms import JobFilterForm, JobForm
-from .models import Job, JobSource
+from .forms import JobFilterForm, JobForm, TechStackForm
+from .models import Job, JobSource, TechStack
 
 
 class JobListView(AccessRequiredMixin, PaginationMixin, SearchableMixin, generic.ListView):
@@ -104,3 +104,34 @@ class JobSourceDeleteView(AccessRequiredMixin, generic.DeleteView):
     template_name = "job_sources/delete.html"
     success_url = reverse_lazy("job_source_list")
     permission_required = ("jobs.view_jobsource", "jobs.delete_jobsource")
+
+
+class TechStackListView(PaginationMixin, SearchableMixin, generic.ListView):
+    model = TechStack
+    template_name = "tech_stacks/list.html"
+    context_object_name = "tech_stack_list"
+    search_lookups = ("name__icontains",)
+
+
+class TechStackBaseView:
+    model = TechStack
+    form_class = TechStackForm
+    success_url = reverse_lazy("tech_stack_list")
+
+
+class TechStackCreateView(TechStackBaseView, FormActionMixin, generic.CreateView):
+    template_name = "tech_stacks/create.html"
+    success_message = "successfully created tech stack!"
+    error_message = "error creating tech stack!"
+
+
+class TechStackUpdateView(TechStackBaseView, FormActionMixin, generic.UpdateView):
+    template_name = "tech_stacks/update.html"
+    success_message = "successfully updated tech stack!"
+    error_message = "error updating tech stack!"
+
+
+class TechStackDeleteView(generic.DeleteView):
+    model = TechStack
+    template_name = "tech_stacks/delete.html"
+    success_url = reverse_lazy("tech_stack_list")
