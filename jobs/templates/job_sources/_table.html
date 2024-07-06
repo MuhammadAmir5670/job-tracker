@@ -18,10 +18,14 @@
                     <td>{{ job_source.link_regex|default:"None" }}</td>
                     <td>
                         <div class="d-flex gap-2">
-                            <a href='{% url "job_source_update" pk=job_source.pk %}'
-                               class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
-                            <a href='{% url "job_source_delete" pk=job_source.pk %}'
-                               class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
+                            {% if perms.jobs.change_jobsource %}
+                                <a href='{% url "job_source_update" pk=job_source.pk %}'
+                                   class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                            {% endif %}
+                            {% if perms.jobs.delete_jobsource %}
+                                <a href='{% url "job_source_delete" pk=job_source.pk %}'
+                                   class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i></a>
+                            {% endif %}
                         </div>
                     </td>
                 </tr>
