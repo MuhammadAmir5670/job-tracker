@@ -21,7 +21,7 @@
                 {{ filter_form|crispy }}
                 <button type="submit" class="btn btn-success">search</button>
                 <a class="btn btn-success"
-                   href='{% url "jobs_list" %}?page={{ page_obj.number }}'>Clear</a>
+                   href='{% url "job_list" %}?page={{ page_obj.number }}'>Clear</a>
             </form>
         </div>
         <hr />
