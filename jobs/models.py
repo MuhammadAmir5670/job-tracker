@@ -51,6 +51,9 @@ class Job(TimeStampedModel):
     applied_at = models.DateTimeField(auto_now_add=True)
     job_source = models.ForeignKey(JobSource, on_delete=models.CASCADE, null=True)
 
+    class Meta:
+        ordering = ("-created_at",)
+
     def __str__(self):
         """Unicode representation of Job."""
         return self.title
