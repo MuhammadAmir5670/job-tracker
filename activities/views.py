@@ -1,4 +1,4 @@
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import generic
 
 from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
@@ -15,7 +15,7 @@ class ActivityCreateView(FormActionMixin, generic.CreateView):
     error_message = "error logging job activity!"
 
     def get_success_url(self) -> str:
-        return reverse("job_detail", kwargs={"pk": self.kwargs["job_pk"]})
+        return reverse_lazy("job_detail", kwargs={"pk": self.kwargs["job_pk"]})
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -45,3 +45,9 @@ class ActivityTypeUpdateView(generic.UpdateView):
     form_class = ActivityTypeForm
     success_message = "successfully updated activity!"
     error_message = "error updating activity!"
+
+
+class ActivityTypeDeleteView(generic.DeleteView):
+    model = ActivityType
+    template_name = "activities/activity_type_delete.html"
+    success_url = reverse_lazy("activity_type_list")
