@@ -24,6 +24,11 @@
                     <a class="nav-link {% if activity_type_list == request.path %}active{% endif %}"
                        href='{% url "activity_type_list" %}'>Activity Types</a>
                 </li>
+                <li class="nav-item">
+                    {% url "job_source_list" as job_source_list %}
+                    <a class="nav-link {% if job_source_list == request.path %}active{% endif %}"
+                       href='{% url "job_source_list" %}'>Job Sources</a>
+                </li>
             </ul>
         </div>
         <span class="navbar-text">
