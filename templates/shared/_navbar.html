@@ -39,6 +39,11 @@
                     </div>
                     <a href='{% url "account_logout" %}' class="link ms-4">Logout</a>
                 </div>
+            {% else %}
+                <div class="d-flex gap-3">
+                    <a href='{% url "account_login" %}'>Login</a>
+                    <a href='{% url "account_login" %}'>Sign Up</a>
+                </div>
             {% endif %}
         </span>
     </div>
