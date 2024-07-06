@@ -60,6 +60,12 @@ class JobUpdateView(FormActionMixin, generic.UpdateView):
     error_message = "error updating job!"
 
 
+class JobDeleteView(generic.DeleteView):
+    model = Job
+    template_name = "jobs/delete.html"
+    success_url = reverse_lazy("job_list")
+
+
 class JobSourceListView(SearchableMixin, generic.ListView):
     model = JobSource
     search_lookups = ("name__icontains",)
