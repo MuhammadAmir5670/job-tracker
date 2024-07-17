@@ -26,6 +26,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls")),
     path("activity/", include("activities.urls")),
     path("autocomplete/", AutocompleteView.as_view(), name="autocomplete"),
+    path("api/", include("api.urls")),
 ]
 
 if settings.DEBUG:
