@@ -51,6 +51,7 @@ THIRD_PARTY_APPS = [
     "crispy_forms",
     "crispy_bootstrap5",
     "django_tomselect",
+    "rest_framework",
 ]
 
 LOCAL_APPS = [
@@ -71,6 +72,16 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "allauth.account.middleware.AccountMiddleware",
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+}
 
 ROOT_URLCONF = "job_tracker.urls"
 
