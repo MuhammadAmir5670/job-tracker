@@ -25,7 +25,7 @@ class JobSource(TimeStampedModel):
 class TechStack(TimeStampedModel):
     """Model definition for TechStack."""
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
 
     class Meta:
         ordering = ("-created_at",)

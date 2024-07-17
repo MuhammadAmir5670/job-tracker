@@ -11,6 +11,10 @@ from .views import (
     JobSourceListView,
     JobSourceUpdateView,
     JobUpdateView,
+    TechStackListView,
+    TechStackCreateView,
+    TechStackUpdateView,
+    TechStackDeleteView,
 )
 
 urlpatterns = [
@@ -24,4 +28,8 @@ urlpatterns = [
     path("job_sources/create/", JobSourceCreateView.as_view(), name="job_source_create"),
     path("job_sources/<int:pk>/update/", JobSourceUpdateView.as_view(), name="job_source_update"),
     path("job_sources/<int:pk>/delete/", JobSourceDeleteView.as_view(), name="job_source_delete"),
+    path("tech_stacks/", TechStackListView.as_view(), name="tech_stack_list"),
+    path("tech_stacks/create/", TechStackCreateView.as_view(), name="tech_stack_create"),
+    path("tech_stacks/<int:pk>/update/", TechStackUpdateView.as_view(), name="tech_stack_update"),
+    path("tech_stacks/<int:pk>/delete/", TechStackDeleteView.as_view(), name="tech_stack_delete"),
 ]

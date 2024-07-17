@@ -5,8 +5,8 @@ from activities.models import Activity
 from core.mixins import AccessRequiredMixin
 from core.viewmixins import FormActionMixin, PaginationMixin, SearchableMixin
 
-from .forms import JobFilterForm, JobForm
-from .models import Job, JobSource
+from .forms import JobFilterForm, JobForm, TechStackForm
+from .models import Job, JobSource, TechStack
 
 
 class JobListView(AccessRequiredMixin, PaginationMixin, SearchableMixin, generic.ListView):
@@ -104,3 +104,38 @@ class JobSourceDeleteView(AccessRequiredMixin, generic.DeleteView):
     template_name = "job_sources/delete.html"
     success_url = reverse_lazy("job_source_list")
     permission_required = ("jobs.view_jobsource", "jobs.delete_jobsource")
+
+
+class TechStackListView(AccessRequiredMixin, PaginationMixin, SearchableMixin, generic.ListView):
+    model = TechStack
+    template_name = "tech_stacks/list.html"
+    context_object_name = "tech_stack_list"
+    search_lookups = ("name__icontains",)
+    permission_required = "jobs.view_techstack"
+
+
+class TechStackBaseView(AccessRequiredMixin, FormActionMixin):
+    model = TechStack
+    form_class = TechStackForm
+    success_url = reverse_lazy("tech_stack_list")
+
+
+class TechStackCreateView(TechStackBaseView, generic.CreateView):
+    template_name = "tech_stacks/create.html"
+    success_message = "successfully created tech stack!"
+    error_message = "error creating tech stack!"
+    permission_required = ("jobs.view_techstack", "jobs.add_techstack")
+
+
+class TechStackUpdateView(TechStackBaseView, generic.UpdateView):
+    template_name = "tech_stacks/update.html"
+    success_message = "successfully updated tech stack!"
+    error_message = "error updating tech stack!"
+    permission_required = ("jobs.view_techstack", "jobs.change_techstack")
+
+
+class TechStackDeleteView(AccessRequiredMixin, generic.DeleteView):
+    model = TechStack
+    template_name = "tech_stacks/delete.html"
+    success_url = reverse_lazy("tech_stack_list")
+    permission_required = ("jobs.view_techstack", "jobs.delete_techstack")

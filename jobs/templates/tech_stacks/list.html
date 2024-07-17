@@ -1,0 +1,29 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}
+    {{ block.super }} | Tech Stack List
+{% endblock head_title %}
+{% block content %}
+    <div class="container my-4">
+        <div class="d-flex align-items-center justify-content-between">
+            <h1 class="mb-3">Tech Stacks</h1>
+            {% if perms.jobs.add_techstack %}
+                <a href="{% url 'tech_stack_create' %}" class="btn btn-primary">
+                    New Tech Stack
+                </a>
+            {% endif %}
+        </div>
+        <div class="filters">
+            <form>
+                {% include "shared/_search_field.html" with placeholder="Tech Stack Name" %}
+                <div class="mt-2">
+                    <button type="submit" class="btn btn-success">Search</button>
+                    <a class="btn btn-info"
+                       href="{% url 'tech_stack_list' %}?page={{ page_obj.number }}">Clear</a>
+                </div>
+            </form>
+        </div>
+        <hr />
+        {% include "tech_stacks/_table.html" %}
+    </div>
+{% endblock content %}

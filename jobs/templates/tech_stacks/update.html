@@ -1,0 +1,16 @@
+{% extends "layouts/base.html" %}
+{% load crispy_forms_tags %}
+{% block head_title %}
+    {{ block.super }} | Update Tech Stack
+{% endblock head_title %}
+{% block content %}
+    <div class="container my-4">
+        <h1>Tech Stack Form</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Update</button>
+            <a href='{% url "tech_stack_list" %}' class="btn btn-primary">Cancel!</a>
+        </form>
+    </div>
+{% endblock content %}

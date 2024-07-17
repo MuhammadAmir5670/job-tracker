@@ -1,0 +1,36 @@
+{% if tech_stack_list %}
+    <table class="tech_stack-table table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tech_stack in tech_stack_list %}
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td>{{ tech_stack.name }}</td>
+                    <td>
+                        <div class="d-flex gap-2">
+                            {% if perms.jobs.change_techstack %}
+                                <a href='{% url "tech_stack_update" pk=tech_stack.pk %}'
+                                    class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i>
+                                </a>
+                            {% endif %}
+                            {% if perms.jobs.change_techstack %}
+                                <a href='{% url "tech_stack_delete" pk=tech_stack.pk %}'
+                                    class="btn btn-danger btn-sm"><i class="bi bi-trash-fill"></i>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% include "shared/_pagination.html" %}
+{% else %}
+    {% include "shared/_alert.html" with type="warning" message="No Tech Stacks found!" %}
+{% endif %}
