@@ -4,7 +4,15 @@ from core.api.pagination import CustomCursorPagination
 from core.api.permissions import CustomModelPermissions
 from jobs.models import TechStack
 
+from jobs.models import Job, TechStack
+
 from .serializers import TechStackSerializer
+from .serializers import JobSerializer, TechStackSerializer
+
+
+class JobViewSet(viewsets.ModelViewSet):
+    serializer_class = JobSerializer
+    queryset = Job.objects.all().order_by("-created_at")
 
 
 class TechStackViewSet(viewsets.ModelViewSet):
