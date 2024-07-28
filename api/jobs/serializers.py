@@ -6,11 +6,12 @@ from jobs.models import Job, TechStack
 
 
 class JobSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="jobs-detail")
     tech_stacks = serializers.StringRelatedField(many=True)
 
     class Meta:
         model = Job
-        fields = ("title", "company", "tech_stacks", "status", "link", "applied_at", "job_source")
+        fields = ("url", "title", "company", "tech_stacks", "status", "link", "applied_at", "job_source")
 
     def validate(self, validated_data):
         job_source = validated_data.get("job_source")
