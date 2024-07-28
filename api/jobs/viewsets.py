@@ -14,6 +14,8 @@ class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
     queryset = Job.objects.all().order_by("-created_at")
     permission_classes = (permissions.DjangoModelPermissions,)
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["title", "company"]
 
 
 class TechStackViewSet(viewsets.ModelViewSet):
