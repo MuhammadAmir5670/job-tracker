@@ -4,4 +4,4 @@ from .views import TechStackViewSet
 
 router = DefaultRouter()
 
-router.register(r'tech_stacks', TechStackViewSet)
+router.register(r"tech_stacks", TechStackViewSet, "tech_stack")
