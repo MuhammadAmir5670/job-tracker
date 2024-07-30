@@ -55,6 +55,12 @@ class JobCreateView(AccessRequiredMixin, FormActionMixin, generic.CreateView):
     error_message = "error creating job!"
     permission_required = ("jobs.add_job", "jobs.view_job")
 
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+
+        return super().form_valid(form)
+
 
 class JobUpdateView(AccessRequiredMixin, FormActionMixin, generic.UpdateView):
     model = Job
