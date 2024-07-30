@@ -46,13 +46,13 @@ class Job(TimeStampedModel):
         DORMANT = "DORMANT", _("Dormant")
         FOLLOW_UP = "FOLLOW_UP", _("Follow Up")
 
-    title = models.CharField(max_length=500)
     company = models.CharField(max_length=500)
-    tech_stacks = models.ManyToManyField(TechStack)
-    status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     link = models.TextField(validators=[URLValidator()])
+    status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
+    title = models.CharField(max_length=500)
     applied_at = models.DateTimeField(auto_now_add=True)
     job_source = models.ForeignKey(JobSource, on_delete=models.CASCADE, null=True)
+    tech_stacks = models.ManyToManyField(TechStack)
 
     def __str__(self):
         """Unicode representation of Job."""
