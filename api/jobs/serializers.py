@@ -2,7 +2,13 @@ import re
 
 from rest_framework import serializers
 
-from jobs.models import Job, TechStack
+from jobs.models import Job, Note, TechStack
+
+
+class JobNotesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Note
+        fields = ("content",)
 
 
 class JobSerializer(serializers.ModelSerializer):
