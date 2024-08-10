@@ -14,6 +14,9 @@ class JobViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ["title", "company"]
 
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
+
 
 class TechStackViewSet(viewsets.ModelViewSet):
     queryset = TechStack.objects.all()
