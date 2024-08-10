@@ -23,8 +23,6 @@ class JobSource(TimeStampedModel):
 
 
 class TechStack(TimeStampedModel):
-    """Model definition for TechStack."""
-
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -35,8 +33,6 @@ class TechStack(TimeStampedModel):
 
 
 class Job(TimeStampedModel):
-    """Model definition for Job."""
-
     class Status(models.TextChoices):
         WISHLIST = "WISHLIST", _("Wishlist")
         APPLIED = "APPLIED", _("Applied")
