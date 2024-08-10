@@ -91,6 +91,12 @@ class TestJobDetailView(TestCase):
         self.assertTemplateUsed(response, "jobs/job_detail.html")
         self.assertContains(response, self.job.title)
 
+    def test_404_if_job_does_not_exists(self):
+        """Tests that 404 error if the job requested does not exists"""
+        response = self.call_job_detail_endpoint("100", self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 404)
+
 
 class TestJobCreateView(TestCase):
     base_url = reverse("job_create")
