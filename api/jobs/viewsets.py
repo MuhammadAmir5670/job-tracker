@@ -25,10 +25,10 @@ class JobNotesViewSet(viewsets.ModelViewSet):
     permission_classes = (CustomModelPermissions,)
 
     def get_queryset(self):
-        return super().get_queryset().filter(job_id=self.job)
+        return super().get_queryset().filter(job=self.job)
 
     def perform_create(self, serializer):
-        serializer.save(job_id=self.job)
+        serializer.save(job=self.job)
 
     @property
     def job(self):
