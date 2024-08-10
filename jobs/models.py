@@ -23,8 +23,6 @@ class JobSource(TimeStampedModel):
 
 
 class TechStack(TimeStampedModel):
-    """Model definition for TechStack."""
-
     name = models.CharField(max_length=100, unique=True)
 
     class Meta:
@@ -35,8 +33,6 @@ class TechStack(TimeStampedModel):
 
 
 class Job(TimeStampedModel):
-    """Model definition for Job."""
-
     class Status(models.TextChoices):
         WISHLIST = "WISHLIST", _("Wishlist")
         APPLIED = "APPLIED", _("Applied")
@@ -48,11 +44,11 @@ class Job(TimeStampedModel):
 
     title = models.CharField(max_length=500)
     company = models.CharField(max_length=500)
-    tech_stacks = models.ManyToManyField(TechStack)
     status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     link = models.TextField(validators=[URLValidator()])
     applied_at = models.DateTimeField(auto_now_add=True)
-    job_source = models.ForeignKey(JobSource, on_delete=models.CASCADE, null=True)
+    job_source = models.ForeignKey(JobSource, related_name="jobs", on_delete=models.CASCADE)
+    tech_stacks = models.ManyToManyField(TechStack, related_name="jobs")
 
     def __str__(self):
         """Unicode representation of Job."""
