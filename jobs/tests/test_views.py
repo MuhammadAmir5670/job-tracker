@@ -197,34 +197,94 @@ class TestJobUpdateView(TestCase):
         cls.user = UserFactory()
         cls.user_with_permission = UserFactory()
         cls.job = JobFactory(created_by=cls.user)
+        cls.job_source, _ = JobSource.objects.get_or_create(name="Linkedin")
+        cls.tech_stack, _ = TechStack.objects.get_or_create(name="python")
         cls.base_url = reverse("job_update", kwargs={"pk": cls.job.pk})
         update_job_permission = Permission.objects.filter(codename__in=("view_job", "change_job"))
 
         cls.user_with_permission.user_permissions.set(update_job_permission)
 
-    def call_job_update_endpoint(self, job_pk, user, authenticate=False):
+    def call_get_job_update_endpoint(self, job_pk, user, authenticate=False):
         if authenticate and self.user:
             self.client.force_login(user)
 
         return self.client.get(reverse("job_update", kwargs={"pk": job_pk}))
 
+    def call_put_job_update_endpoint(self, job_pk, payload, user, authenticate=False):
+        if authenticate and self.user:
+            self.client.force_login(user)
+
+        return self.client.post(reverse("job_update", kwargs={"pk": job_pk}), payload)
+
     def test_redirect_if_not_logged_in(self):
         """Tests that non logged in users are redirected to login page"""
-        response = self.call_job_update_endpoint(self.job.pk, self.user)
+        response = self.call_get_job_update_endpoint(self.job.pk, self.user)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.login_url + f"?next={self.base_url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
         """Tests logged in user that don't have view_job permission is given 403 error"""
-        response = self.call_job_update_endpoint(self.job.pk, self.user, authenticate=True)
+        response = self.call_get_job_update_endpoint(self.job.pk, self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
     def test_success_if_logged_in_user_has_update_job_permission(self):
         """Tests that logged in user with update_job permission is given access to job update page"""
-        response = self.call_job_update_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
+        response = self.call_get_job_update_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "jobs/job_update.html")
         self.assertContains(response, self.job.title)
+
+    def test_404_if_job_does_not_exists(self):
+        """Test 404 error is returned if the job does not exists"""
+        response = self.call_get_job_update_endpoint(100, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_form_with_empty_data(self):
+        """Test if update form with empty data returns validation errors"""
+        response = self.call_put_job_update_endpoint(self.job.pk, {}, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, "form", "title", "This field is required.")
+        self.assertFormError(response, "form", "company", "This field is required.")
+        self.assertFormError(response, "form", "link", "This field is required.")
+        self.assertFormError(response, "form", "job_source", "This field is required.")
+        self.assertFormError(response, "form", "status", "This field is required.")
+        self.assertFormError(response, "form", "tech_stacks", "This field is required.")
+
+    def test_form_with_partially_valid_data(self):
+        """Test if update form with partially valid data returns validation errors"""
+        data = {
+            "title": "job title",
+            "job_source": self.job_source.pk,
+            "status": Job.Status.APPLIED,
+            "link": "www.example.com",
+        }
+        response = self.call_put_job_update_endpoint(self.job.pk, data, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertFormError(response, "form", "link", "Enter a valid URL.")
+        self.assertFormError(response, "form", "company", "This field is required.")
+        self.assertFormError(response, "form", "tech_stacks", "This field is required.")
+
+    def test_form_with_valid_data(self):
+        """Test if update form with valid data updates the job"""
+        data = {
+            "title": "job title (updated)",
+            "company": "job company name (updated)",
+            "status": Job.Status.APPLIED,
+            "link": "https://www.example.com/updated",
+            "job_source": self.job_source.pk,
+            "tech_stacks": [self.tech_stack.pk],
+        }
+        response = self.call_put_job_update_endpoint(self.job.pk, data, self.user_with_permission, authenticate=True)
+        self.job = Job.objects.get(pk=self.job.pk)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("job_detail", kwargs={"pk": self.job.pk}))
+        self.assertEqual(self.job.title, "job title (updated)")
+        self.assertEqual(self.job.company, "job company name (updated)")
+        self.assertEqual(self.job.link, "https://www.example.com/updated")
