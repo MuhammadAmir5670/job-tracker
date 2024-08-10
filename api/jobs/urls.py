@@ -11,5 +11,4 @@ router.register("jobs", JobViewSet, "jobs")
 jobs_router = NestedSimpleRouter(router, "jobs", lookup="job")
 jobs_router.register("notes", JobNotesViewSet, "notes")
 
-
 urlpatterns = [*router.urls, *jobs_router.urls]
