@@ -48,9 +48,9 @@ class Job(TimeStampedModel):
     status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     link = models.TextField(validators=[URLValidator()])
     applied_at = models.DateTimeField(auto_now_add=True)
-    job_source = models.ForeignKey(JobSource, on_delete=models.CASCADE, null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    tech_stacks = models.ManyToManyField(TechStack)
+    job_source = models.ForeignKey(JobSource, related_name="jobs", on_delete=models.CASCADE, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jobs", on_delete=models.PROTECT)
+    tech_stacks = models.ManyToManyField(TechStack, related_name="jobs")
 
     def __str__(self):
         """Unicode representation of Job."""
