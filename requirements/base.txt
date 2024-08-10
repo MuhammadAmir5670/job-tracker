@@ -9,6 +9,6 @@ crispy-bootstrap5==0.7
 django-tomselect==0.4.4
 
 # Django Rest Framework
-# -----------------------------------------
+# ---------------------------------------------------------------------
 djangorestframework==3.15.1
 drf-nested-routers==0.94.0
