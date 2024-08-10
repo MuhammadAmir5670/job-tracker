@@ -9,7 +9,7 @@ from .serializers import JobSerializer, TechStackSerializer
 
 class JobViewSet(viewsets.ModelViewSet):
     serializer_class = JobSerializer
-    queryset = Job.objects.all().order_by("-created_at")
+    queryset = Job.objects.order_by("-created_at")
     permission_classes = (CustomModelPermissions,)
     filter_backends = [filters.SearchFilter]
     search_fields = ["title", "company"]
