@@ -5,18 +5,11 @@ from django.db import migrations, models
 from django.contrib.auth import get_user_model
 import django.db.models.deletion
 
-from core.exceptions import MigrationFailedException
-
 
 def set_job_created_by(apps, schema):
     User = get_user_model()
     Job = apps.get_model("jobs", "Job")
-
-    try:
-        default_user = User.objects.get(username="admin")
-    except User.DoesNotExist:
-        raise MigrationFailedException("The default user does not exists")
-
+    default_user, _ = User.objects.get_or_create(username="admin")
     orphan_jobs = Job.objects.filter(created_by=None)
 
     orphan_jobs.update(created_by=default_user)
