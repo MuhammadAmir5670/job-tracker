@@ -21,7 +21,7 @@ class JobViewSet(viewsets.ModelViewSet):
 
 class JobNotesViewSet(viewsets.ModelViewSet):
     serializer_class = JobNotesSerializer
-    queryset = Note.objects.all().order_by("-created_at")
+    queryset = Note.objects.order_by("-created_at")
     permission_classes = (CustomModelPermissions,)
 
     def get_queryset(self):
