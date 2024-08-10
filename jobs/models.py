@@ -61,3 +61,14 @@ class Job(TimeStampedModel):
 
     def pretty_techstack(self):
         return ", ".join([tech_stack.name for tech_stack in self.tech_stacks.all()])
+
+
+class Note(TimeStampedModel):
+    content = models.TextField()
+    job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="notes")
+
+    def __str__(self):
+        return self.content
+
+    def get_absolute_url(self):
+        return reverse("note_detail", kwargs={"pk": self.pk})
