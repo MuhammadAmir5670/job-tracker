@@ -288,3 +288,68 @@ class TestJobUpdateView(TestCase):
         self.assertEqual(self.job.title, "job title (updated)")
         self.assertEqual(self.job.company, "job company name (updated)")
         self.assertEqual(self.job.link, "https://www.example.com/updated")
+
+
+class TestJobDeleteView(TestCase):
+    login_url = reverse("account_login")
+
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = UserFactory()
+        cls.user_with_permission = UserFactory()
+        cls.job = JobFactory(created_by=cls.user)
+        cls.url = reverse("job_delete", kwargs={"pk": cls.job.pk})
+        delete_job_permission = Permission.objects.filter(codename__in=("view_job", "delete_job"))
+
+        cls.user_with_permission.user_permissions.set(delete_job_permission)
+
+    def call_get_job_delete_endpoint(self, job_pk, user, authenticate=False):
+        if authenticate and self.user:
+            self.client.force_login(user)
+
+        return self.client.get(reverse("job_delete", kwargs={"pk": job_pk}))
+
+    def call_post_job_delete_endpoint(self, job_pk, user, authenticate=False):
+        if authenticate and self.user:
+            self.client.force_login(user)
+
+        return self.client.post(reverse("job_delete", kwargs={"pk": job_pk}))
+
+    def test_redirect_if_not_logged_in(self):
+        """Tests that non logged in users are redirected to login page"""
+        response = self.call_get_job_delete_endpoint(self.job.pk, self.user)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, self.login_url + f"?next={self.url}")
+
+    def test_forbidden_if_logged_in_but_not_authorized(self):
+        """Tests logged in user that don't have view_job permission is given 403 error"""
+        response = self.call_get_job_delete_endpoint(self.job.pk, self.user, authenticate=True)
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_success_if_logged_in_user_has_view_job_permission(self):
+        """Tests that logged in user with view_job permission is given access to job detail page"""
+        response = self.call_get_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_success_url_and_template(self):
+        response = self.call_get_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "jobs/delete.html")
+
+    def test_404_if_job_does_not_exists(self):
+        """Tests that 404 error if the job requested does not exists"""
+        response = self.call_get_job_delete_endpoint("100", self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 404)
+
+    def test_successfully_deletes_job(self):
+        """Tests that 404 error if the job requested does not exists"""
+        response = self.call_post_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse("job_list"))
+        self.assertEqual(Job.objects.count(), 0)
