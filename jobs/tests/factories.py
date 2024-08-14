@@ -7,7 +7,7 @@ from factory.django import DjangoModelFactory
 from faker.providers import DynamicProvider
 
 from accounts.tests.factories import UserFactory
-from jobs.models import Job, TechStack
+from jobs.models import Job, JobSource, TechStack
 
 tech_stack_provider = DynamicProvider(
     provider_name="tech_stack",
@@ -46,6 +46,14 @@ class TechStackFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("tech_stack")
 
 
+class JobSourceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = JobSource
+        django_get_or_create = ("name",)
+
+    name = factory.Faker("name")
+
+
 class JobFactory(DjangoModelFactory):
     class Meta:
         model = Job
@@ -55,4 +63,5 @@ class JobFactory(DjangoModelFactory):
     link = Faker("url")
     status = LazyFunction(lambda: choice(Job.Status.values))
     applied_at = LazyFunction(lambda: timezone.now())
+    job_source = SubFactory(JobSourceFactory)
     created_by = SubFactory(UserFactory)
