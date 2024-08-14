@@ -10,7 +10,7 @@ from .models import Job, JobSource, TechStack
 
 
 class JobListView(AccessRequiredMixin, PaginationMixin, SearchableMixin, generic.ListView):
-    model = Job
+    queryset = Job.objects.order_by("-created_at")
     template_name = "jobs/jobs_list.html"
     context_object_name = "job_list"
     search_lookups = ("title__icontains", "company__icontains")
