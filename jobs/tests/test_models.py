@@ -76,3 +76,44 @@ class TestJobModel(TestCase):
         self.job.tech_stacks.add(javascript_techstack, ruby_techstack, go_techstack)
 
         self.assertEqual(self.job.pretty_techstack(), "go, ruby, javascript")
+
+
+class TestJobSourceModel(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.job_source = JobSource.objects.create(name="Linkedin", link_regex="[A-Z]*")
+
+    def test_job_source_create(self):
+        """
+        Job Source is created, Note: total objects created will job source objects created
+        in the tests + 1 because of a default JobSource object created in migration
+        """
+        job_source = JobSource.objects.create(name="Glass Door", link_regex="[A-Z]*")
+
+        self.assertEqual(JobSource.objects.count(), 3)
+        self.assertEqual(job_source.name, "Glass Door")
+        self.assertEqual(job_source.link_regex, "[A-Z]*")
+
+    def test_link_regex_default_value(self):
+        """Job Source link_regex default value is a empty string"""
+        job_source = JobSource.objects.create(name="Glass Door")
+
+        self.assertEqual(job_source.link_regex, "")
+
+    def test_link_regex_validation(self):
+        """Job Source link regex value is a valid regex"""
+        self.job_source.link_regex = "()()()((((("
+
+        with self.assertRaises(ValidationError):
+            self.job_source.full_clean()
+
+    def test_str_method(self):
+        """JobSource#name is returned when printed or passed to str"""
+        self.assertEqual(str(self.job_source), self.job_source.name)
+
+    def test_get_absolute_url_method(self):
+        """JobSource#get_absolute_url returns the job source"""
+        self.assertEqual(
+            self.job_source.get_absolute_url(),
+            reverse("job_source_detail", kwargs={"pk": self.job_source.pk}),
+        )
