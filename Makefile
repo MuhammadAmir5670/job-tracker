@@ -7,6 +7,9 @@ shell:
 migrations:
 	docker compose exec web python manage.py makemigrations
 
+migrate:
+	docker compose exec web python manage.py migrate
+
 test:
 	docker compose exec web python -m coverage run manage.py test
 	docker compose exec web python -m coverage html
