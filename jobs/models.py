@@ -48,6 +48,7 @@ class Job(TimeStampedModel):
     status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
     description = models.TextField(default="")
     link = models.TextField(validators=[URLValidator()])
+    expired_at = models.DateTimeField(editable=False, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
     job_source = models.ForeignKey(JobSource, related_name="jobs", on_delete=models.CASCADE)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="jobs", on_delete=models.PROTECT)
