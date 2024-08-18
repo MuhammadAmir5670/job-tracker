@@ -18,7 +18,18 @@ class JobSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Job
-        fields = ("url", "title", "company", "tech_stacks", "status", "link", "applied_at", "job_source", "created_by")
+        fields = (
+            "url",
+            "title",
+            "company",
+            "tech_stacks",
+            "status",
+            "link",
+            "applied_at",
+            "job_source",
+            "created_by",
+            "description",
+        )
 
     def validate(self, validated_data):
         job_source = validated_data.get("job_source")
