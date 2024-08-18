@@ -10,6 +10,14 @@ extend-exclude = '''
 )/
 '''
 
+# ==== Coverage ====
+[tool.coverage.run]
+omit=[
+    "admin.py",
+    "*/tests/*",
+    "*/migrations/*"
+]
+
 # ==== isort ====
 # Full list of configuration options available here: https://pycqa.github.io/isort/docs/configuration/options.html
 [tool.isort]
