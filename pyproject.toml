@@ -17,6 +17,7 @@ omit=[
     "*/tests/*",
     "*/migrations/*"
 ]
+plugins = ["django_coverage_plugin"]
 
 # ==== isort ====
 # Full list of configuration options available here: https://pycqa.github.io/isort/docs/configuration/options.html
