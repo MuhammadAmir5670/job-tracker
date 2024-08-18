@@ -13,7 +13,7 @@ class TechStackWidget(TomSelectMultipleWidget):
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
-        fields = ("title", "company", "job_source", "link", "status", "tech_stacks")
+        fields = ("title", "company", "job_source", "link", "status", "tech_stacks", "description")
         widgets = {
             "tech_stacks": TechStackWidget,
             "link": forms.TextInput,
