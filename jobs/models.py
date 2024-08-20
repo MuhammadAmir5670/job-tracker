@@ -42,6 +42,7 @@ class Job(TimeStampedModel):
         OFFER = "OFFER", _("Offer")
         DORMANT = "DORMANT", _("Dormant")
         FOLLOW_UP = "FOLLOW_UP", _("Follow Up")
+        EXPIRED = "EXPIRED", _("Expired")
 
     title = models.CharField(max_length=500)
     company = models.CharField(max_length=500)
