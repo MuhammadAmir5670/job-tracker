@@ -1,3 +1,6 @@
+connect:
+	docker compose exec -it -u 0 web bash
+
 run:
 	docker compose exec -it web python manage.py runserver_plus 0.0.0.0:8000
 
