@@ -32,6 +32,13 @@ services:
     depends_on:
       - redis
     command: celery --app=job_tracker worker --loglevel=info
+  celery-beat:
+    <<: *django
+    ports: []
+    depends_on:
+      - redis
+      - celery
+    command: celery --app=job_tracker beat --loglevel=info
 
 volumes:
   pg_data:
