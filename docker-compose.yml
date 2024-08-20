@@ -2,7 +2,7 @@ services:
   web:
     build: .
     ports:
-      - 9000:8000
+      - 8000:8000
     volumes:
       - .:/app
       - python_packages:/usr/local/lib/python3.10/site-packages
