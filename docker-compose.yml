@@ -30,7 +30,6 @@ services:
     <<: *django
     ports: []
     depends_on:
-      - web
       - redis
     command: celery --app=job_tracker worker --loglevel=info
 
