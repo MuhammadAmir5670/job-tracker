@@ -8,9 +8,9 @@ ENV PYTHONUNBUFFERED 1
 # Set Working directory
 WORKDIR /app
 
-COPY ./requirements/local.txt ./
+COPY ./requirements ./requirements
 
-RUN pip install -r local.txt
+RUN pip install -r requirements/local.txt
 
 COPY . .
 
