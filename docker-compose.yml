@@ -9,16 +9,12 @@ services:
     depends_on:
       - db
     environment:
-      - DJANGO_SECRET_KEY=django-insecure-rq-8dkoe-p))lzvpn7!c*k)l!6jh^#mjvdn14n*jh&fsli7=+7
-      - DJANGO_DEBUG=True
-      - DJANGO_SECURE_SSL_REDIRECT=False
-      - DJANGO_SECURE_HSTS_SECONDS=0
-      - DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=False
-      - DJANGO_SECURE_HSTS_PRELOAD=False
-      - DJANGO_SESSION_COOKIE_SECURE=False
-      - DJANGO_CSRF_COOKIE_SECURE=False
-      - DJANGO_SETTINGS_MODULE=job_tracker.settings.local
       - USE_DOCKER=True
+      - DJANGO_DEBUG=True
+      - DJANGO_SETTINGS_MODULE=job_tracker.settings.local
+      - DJANGO_SECRET_KEY=django-insecure-rq-8dkoe-p))lzvpn7!c*k)l!6jh^#mjvdn14n*jh&fsli7=+7
+      - REDIS_URL=redis://redis:6379/0
+      - CELERY_BROKER_URL=redis://redis:6379
   db:
     image: postgres:13
     environment:
