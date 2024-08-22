@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+from celery.schedules import crontab
 from django.contrib import messages
 from environs import Env
 
@@ -193,3 +194,10 @@ MESSAGE_TAGS = {
 # https://docs.celeryq.dev/en/stable/userguide/configuration.html#std:setting-result_backend
 CELERY_BROKER_URL = env("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+
+CELERY_BEAT_SCHEDULE = {
+    "Expire Jobs": {
+        "task": "jobs.tasks.expire_jobs",
+        "schedule": crontab(hour="*/1"),
+    },
+}
