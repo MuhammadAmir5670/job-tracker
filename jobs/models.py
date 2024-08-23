@@ -68,7 +68,7 @@ class Job(TimeStampedModel):
 
 
 class Note(TimeStampedModel):
-    content = models.TextField()
+    content = RichTextField(blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="notes")
 
     def __str__(self):
