@@ -30,6 +30,10 @@ class TestJobModel(TestCase):
         self.assertEqual(job.title, "software engineer")
         self.assertEqual(job.company, "Google")
 
+    def test_default_description(self):
+        """The job description is an empty string by default."""
+        self.assertEqual(self.job.description, "")
+
     def test_default_status(self):
         """Job status default value is WISHLIST"""
         self.assertEqual(self.job.status, Job.Status.WISHLIST)
