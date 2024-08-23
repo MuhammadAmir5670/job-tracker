@@ -1,3 +1,4 @@
+from ckeditor.fields import RichTextField
 from django.conf import settings
 from django.core.validators import URLValidator
 from django.db import models
@@ -47,7 +48,7 @@ class Job(TimeStampedModel):
     title = models.CharField(max_length=500)
     company = models.CharField(max_length=500)
     status = models.CharField(max_length=200, choices=Status.choices, default=Status.WISHLIST)
-    description = models.TextField(default="")
+    description = RichTextField(blank=True)
     link = models.TextField(validators=[URLValidator()])
     expired_at = models.DateTimeField(editable=False, null=True)
     applied_at = models.DateTimeField(auto_now_add=True)
@@ -67,7 +68,7 @@ class Job(TimeStampedModel):
 
 
 class Note(TimeStampedModel):
-    content = models.TextField()
+    content = RichTextField(blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name="notes")
 
     def __str__(self):

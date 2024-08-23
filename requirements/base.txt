@@ -14,3 +14,8 @@ celery==5.4.0
 # ---------------------------------------------------------------------
 djangorestframework==3.15.1
 drf-nested-routers==0.94.0
+
+# Third Party libraries
+# ---------------------------------------------------------------------
+# Rich text editor support
+django-ckeditor==6.7.1 # https://github.com/django-ckeditor/django-ckeditor
