@@ -1,7 +1,13 @@
+from random import choice
+
 import factory
+from django.utils import timezone
+from factory import Faker, LazyFunction, SubFactory
+from factory.django import DjangoModelFactory
 from faker.providers import DynamicProvider
 
-from .models import Job, TechStack
+from accounts.tests.factories import UserFactory
+from jobs.models import Job, JobSource, TechStack
 
 tech_stack_provider = DynamicProvider(
     provider_name="tech_stack",
@@ -29,7 +35,6 @@ tech_stack_provider = DynamicProvider(
         "Redis",
     ],
 )
-
 factory.Faker.add_provider(tech_stack_provider)
 
 
@@ -41,18 +46,22 @@ class TechStackFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("tech_stack")
 
 
-class JobFactory(factory.django.DjangoModelFactory):
+class JobSourceFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = JobSource
+        django_get_or_create = ("name",)
+
+    name = factory.Faker("name")
+
+
+class JobFactory(DjangoModelFactory):
     class Meta:
         model = Job
 
-    title = factory.Faker("job")
-    company = factory.Faker("company")
-    status = factory.Faker("random_element", elements=[status[0] for status in Job.Status.choices])
-    link = factory.Faker("url")
-    applied_at = factory.Faker("date_time_this_year")
-
-    @factory.post_generation
-    def tech_stacks(self, *args, **kwargs):
-        tech_stacks = [TechStackFactory() for _ in range(5)]
-
-        self.tech_stacks.add(*tech_stacks)
+    title = Faker("job")
+    company = Faker("company")
+    link = Faker("url")
+    status = LazyFunction(lambda: choice(Job.Status.values))
+    applied_at = LazyFunction(lambda: timezone.now())
+    job_source = SubFactory(JobSourceFactory)
+    created_by = SubFactory(UserFactory)
