@@ -53,6 +53,7 @@ THIRD_PARTY_APPS = [
     "crispy_bootstrap5",
     "django_tomselect",
     "rest_framework",
+    "ckeditor",
 ]
 
 LOCAL_APPS = [
