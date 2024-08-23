@@ -1,7 +1,7 @@
-import re
-
 from django import forms
 from django_tomselect.widgets import TomSelectMultipleWidget
+
+from jobs.validators import validate_job_link_by_source
 
 from .models import Job, TechStack
 
@@ -20,19 +20,9 @@ class JobForm(forms.ModelForm):
         }
 
     def clean(self):
-        self._validate_job_source_link()
+        validate_job_link_by_source(self.cleaned_data)
 
         return self.cleaned_data
-
-    def _validate_job_source_link(self):
-        job_link = self.cleaned_data.get("link")
-        job_source = self.cleaned_data.get("job_source")
-
-        if not job_source or not job_link:
-            return
-
-        if not re.match(job_source.link_regex, job_link):
-            self.add_error("link", f"Not a valid URL for the selected Job Source: {job_source}")
 
 
 class JobFilterForm(forms.Form):
