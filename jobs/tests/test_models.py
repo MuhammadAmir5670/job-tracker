@@ -20,7 +20,7 @@ class TestJobModel(TestCase):
         )
 
     def test_create_job(self):
-        """Job is created with the given parameters"""
+        """A job can be successfully created with the given parameters."""
         job = Job.objects.create(
             title="software engineer", company="Google", created_by=self.user, job_source=self.job_source
         )
@@ -35,45 +35,47 @@ class TestJobModel(TestCase):
         self.assertEqual(self.job.description, "")
 
     def test_default_status(self):
-        """Job status default value is WISHLIST"""
+        """The default job status is WISHLIST."""
         self.assertEqual(self.job.status, Job.Status.WISHLIST)
 
     def test_invalid_status(self):
-        """Job status value apart from Job.Status choices raises validation Error"""
+        """Assigning an invalid status value raises a validation error."""
         self.job.status = "INVALID"
 
         with self.assertRaises(ValidationError):
             self.job.full_clean()
 
     def test_invalid_link(self):
-        """Invalid job link raises validation error"""
+        """Assigning an invalid link raises a validation error."""
         self.job.link = "Invalid Link"
 
         with self.assertRaises(ValidationError):
             self.job.full_clean()
 
     def test_job_source_cannot_be_null(self):
-        """Raises validation error if job_source is null/None"""
+        """A validation error is raised if the job source is null/None."""
         self.job.job_source = None
 
         with self.assertRaises(ValidationError):
             self.job.full_clean()
 
     def test_created_by_cannot_be_null(self):
-        """Job created_by raises db constraint error if not provided or given null"""
+        """A validation error is raised if created_by is not provided or is null."""
         self.job.created_by = None
 
         with self.assertRaises(ValidationError):
             self.job.full_clean()
 
     def test_str(self):
+        """The __str__ method returns the job title."""
         self.assertEqual(str(self.job), "senior software engineer")
 
     def test_get_absolute_url(self):
-        """job get_absolute_url returns the job detail url"""
+        """get_absolute_url returns the URL for the job detail view."""
         self.assertEqual(self.job.get_absolute_url(), reverse("job_detail", kwargs={"pk": self.job.pk}))
 
     def test_pretty_techstack(self):
+        """pretty_techstack returns a comma-separated list of tech stack names."""
         javascript_techstack, _ = TechStack.objects.get_or_create(name="javascript")
         ruby_techstack, _ = TechStack.objects.get_or_create(name="ruby")
         go_techstack, _ = TechStack.objects.get_or_create(name="go")
@@ -89,8 +91,9 @@ class TestJobSourceModel(TestCase):
 
     def test_job_source_create(self):
         """
-        Job Source is created, Note: total objects created will job source objects created
-        in the tests + 1 because of a default JobSource object created in migration
+        A job source can be successfully created.
+        Note: The total number of JobSource objects will include those created in tests
+        plus one default object created during migration.
         """
         job_source = JobSource.objects.create(name="Glass Door", link_regex="[A-Z]*")
 
@@ -99,24 +102,24 @@ class TestJobSourceModel(TestCase):
         self.assertEqual(job_source.link_regex, "[A-Z]*")
 
     def test_link_regex_default_value(self):
-        """Job Source link_regex default value is a empty string"""
+        """The default value for link_regex is an empty string."""
         job_source = JobSource.objects.create(name="Glass Door")
 
         self.assertEqual(job_source.link_regex, "")
 
     def test_link_regex_validation(self):
-        """Job Source link regex value is a valid regex"""
+        """An invalid regex for link_regex raises a validation error."""
         self.job_source.link_regex = "()()()((((("
 
         with self.assertRaises(ValidationError):
             self.job_source.full_clean()
 
     def test_str_method(self):
-        """JobSource#name is returned when printed or passed to str"""
+        """The __str__ method returns the job source name."""
         self.assertEqual(str(self.job_source), self.job_source.name)
 
     def test_get_absolute_url_method(self):
-        """JobSource#get_absolute_url returns the job source"""
+        """get_absolute_url returns the URL for the job source detail view."""
         self.assertEqual(
             self.job_source.get_absolute_url(),
             reverse("job_source_detail", kwargs={"pk": self.job_source.pk}),
