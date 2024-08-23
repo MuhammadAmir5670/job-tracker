@@ -5,6 +5,7 @@ from core.api.pagination import CustomCursorPagination
 from core.api.permissions import CustomModelPermissions
 from jobs.models import Job, Note, TechStack
 
+from .permissions import JobNotesPermissions
 from .serializers import JobNotesSerializer, JobSerializer, TechStackSerializer
 
 
@@ -22,7 +23,7 @@ class JobViewSet(viewsets.ModelViewSet):
 class JobNotesViewSet(viewsets.ModelViewSet):
     serializer_class = JobNotesSerializer
     queryset = Note.objects.order_by("-created_at")
-    permission_classes = (CustomModelPermissions,)
+    permission_classes = (JobNotesPermissions,)
 
     def get_queryset(self):
         return super().get_queryset().filter(job=self.job)
