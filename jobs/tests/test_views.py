@@ -30,20 +30,20 @@ class TestJobListView(TestCase):
         return self.client.get(self.base_url)
 
     def test_redirect_if_not_logged_in(self):
-        """Tests that non logged in users are redirected to login page"""
+        """Non-logged-in users are redirected to the login page."""
         response = self.call_job_list_endpoint(self.user)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.login_url + f"?next={self.base_url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
-        """Tests logged in user that don't have view_job permission is given 403 error"""
+        """Logged-in users without the view_job permission receive a 403 error."""
         response = self.call_job_list_endpoint(self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
     def test_success_if_logged_in_user_has_view_job_permission(self):
-        """Tests that logged in user with view_job permission is given access to job list page"""
+        """Logged-in users with the view_job permission can access the job list page."""
         response = self.call_job_list_endpoint(self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
@@ -70,7 +70,7 @@ class TestJobDetailView(TestCase):
         return self.client.get(reverse("job_detail", kwargs={"pk": job_pk}))
 
     def test_redirect_if_not_logged_in(self):
-        """Tests that non logged in users are redirected to login page"""
+        """Non-logged-in users are redirected to the login page."""
         response = self.call_job_detail_endpoint(self.job.pk, self.user)
         detail_url = reverse("job_detail", kwargs={"pk": self.job.pk})
 
@@ -78,21 +78,21 @@ class TestJobDetailView(TestCase):
         self.assertRedirects(response, self.login_url + f"?next={detail_url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
-        """Tests logged in user that don't have view_job permission is given 403 error"""
+        """Logged-in users without the view_job permission receive a 403 error."""
         response = self.call_job_detail_endpoint(self.job.pk, self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
     def test_success_if_logged_in_user_has_view_job_permission(self):
-        """Tests that logged in user with view_job permission is given access to job detail page"""
+        """Logged-in users with the view_job permission can access the job detail page."""
         response = self.call_job_detail_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "jobs/job_detail.html")
         self.assertContains(response, self.job.title)
 
-    def test_404_if_job_does_not_exists(self):
-        """Tests that 404 error if the job requested does not exists"""
+    def test_404_if_job_does_not_exist(self):
+        """A 404 error is returned if the requested job does not exist."""
         response = self.call_job_detail_endpoint("100", self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 404)
@@ -126,26 +126,26 @@ class TestJobCreateView(TestCase):
         return self.client.post(self.base_url, payload)
 
     def test_redirect_if_not_logged_in(self):
-        """Tests that non logged in users are redirected to login page"""
+        """Non-logged-in users are redirected to the login page."""
         response = self.call_get_job_create_endpoint(self.user)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.login_url + f"?next={self.base_url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
-        """Tests logged in user that don't have view_job and add_job permission is given 403 error"""
+        """Logged-in users without the view_job and add_job permissions receive a 403 error."""
         response = self.call_get_job_create_endpoint(self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
     def test_logged_in_with_permissions(self):
-        """Tests that logged in user with view_job and add_job permission is given access to job create page"""
+        """Logged-in users with the view_job and add_job permissions can access the job create page."""
         response = self.call_get_job_create_endpoint(self.user_with_permission, authenticate=True)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "jobs/job_create.html")
 
     def test_form_with_empty_data(self):
-        """Tests that job form with empty data returns validation error"""
+        """Submitting the job form with empty data returns validation errors."""
         response = self.call_post_job_create_endpoint(self.user_with_permission, payload={}, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
@@ -157,7 +157,7 @@ class TestJobCreateView(TestCase):
         self.assertFormError(response, "form", "tech_stacks", "This field is required.")
 
     def test_form_with_partial_invalid_data(self):
-        """Tests that job form with partial valid data returns validation error"""
+        """Submitting the job form with partially valid data returns validation errors."""
         data = {
             "title": "job title",
             "company": "job company name",
@@ -172,7 +172,7 @@ class TestJobCreateView(TestCase):
         self.assertFormError(response, "form", "tech_stacks", "This field is required.")
 
     def test_form_with_valid_data(self):
-        """Tests that job form with valid data creates a new job object"""
+        """Submitting the job form with valid data creates a new job object."""
         data = {
             "title": "job title",
             "company": "job company name",
@@ -217,34 +217,34 @@ class TestJobUpdateView(TestCase):
         return self.client.post(reverse("job_update", kwargs={"pk": job_pk}), payload)
 
     def test_redirect_if_not_logged_in(self):
-        """Tests that non logged in users are redirected to login page"""
+        """Non-logged-in users are redirected to the login page."""
         response = self.call_get_job_update_endpoint(self.job.pk, self.user)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.login_url + f"?next={self.base_url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
-        """Tests logged in user that don't have view_job permission is given 403 error"""
+        """Logged-in users without the view_job permission receive a 403 error."""
         response = self.call_get_job_update_endpoint(self.job.pk, self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
     def test_success_if_logged_in_user_has_update_job_permission(self):
-        """Tests that logged in user with update_job permission is given access to job update page"""
+        """Logged-in users with the update_job permission can access the job update page."""
         response = self.call_get_job_update_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "jobs/job_update.html")
         self.assertContains(response, self.job.title)
 
-    def test_404_if_job_does_not_exists(self):
-        """Test 404 error is returned if the job does not exists"""
+    def test_404_if_job_does_not_exist(self):
+        """A 404 error is returned if the requested job does not exist."""
         response = self.call_get_job_update_endpoint(100, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 404)
 
     def test_form_with_empty_data(self):
-        """Test if update form with empty data returns validation errors"""
+        """Submitting the update form with empty data returns validation errors."""
         response = self.call_put_job_update_endpoint(self.job.pk, {}, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
@@ -256,7 +256,7 @@ class TestJobUpdateView(TestCase):
         self.assertFormError(response, "form", "tech_stacks", "This field is required.")
 
     def test_form_with_partially_valid_data(self):
-        """Test if update form with partially valid data returns validation errors"""
+        """Submitting the update form with partially valid data returns validation errors."""
         data = {
             "title": "job title",
             "job_source": self.job_source.pk,
@@ -271,7 +271,7 @@ class TestJobUpdateView(TestCase):
         self.assertFormError(response, "form", "tech_stacks", "This field is required.")
 
     def test_form_with_valid_data(self):
-        """Test if update form with valid data updates the job"""
+        """Submitting the update form with valid data updates the job."""
         data = {
             "title": "job title (updated)",
             "company": "job company name (updated)",
@@ -316,38 +316,39 @@ class TestJobDeleteView(TestCase):
         return self.client.post(reverse("job_delete", kwargs={"pk": job_pk}))
 
     def test_redirect_if_not_logged_in(self):
-        """Tests that non logged in users are redirected to login page"""
+        """Non-logged-in users are redirected to the login page."""
         response = self.call_get_job_delete_endpoint(self.job.pk, self.user)
 
         self.assertEqual(response.status_code, 302)
         self.assertRedirects(response, self.login_url + f"?next={self.url}")
 
     def test_forbidden_if_logged_in_but_not_authorized(self):
-        """Tests logged in user that don't have view_job permission is given 403 error"""
+        """Logged-in users without the delete_job permission receive a 403 error."""
         response = self.call_get_job_delete_endpoint(self.job.pk, self.user, authenticate=True)
 
         self.assertEqual(response.status_code, 403)
 
-    def test_success_if_logged_in_user_has_view_job_permission(self):
-        """Tests that logged in user with view_job permission is given access to job detail page"""
+    def test_success_if_logged_in_user_has_delete_job_permission(self):
+        """Logged-in users with the delete_job permission can access the job delete page."""
         response = self.call_get_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
 
     def test_success_url_and_template(self):
+        """The delete view uses the correct template and returns a 200 status code."""
         response = self.call_get_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, "jobs/delete.html")
 
-    def test_404_if_job_does_not_exists(self):
-        """Tests that 404 error if the job requested does not exists"""
+    def test_404_if_job_does_not_exist(self):
+        """A 404 error is returned if the requested job does not exist."""
         response = self.call_get_job_delete_endpoint("100", self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 404)
 
     def test_successfully_deletes_job(self):
-        """Tests that 404 error if the job requested does not exists"""
+        """Successfully deletes the job and redirects to the job list."""
         response = self.call_post_job_delete_endpoint(self.job.pk, self.user_with_permission, authenticate=True)
 
         self.assertEqual(response.status_code, 302)
