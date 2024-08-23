@@ -1,8 +1,7 @@
-import re
-
 from rest_framework import serializers
 
 from jobs.models import Job, Note, TechStack
+from jobs.validators import validate_job_link_by_source
 
 
 class JobNotesSerializer(serializers.ModelSerializer):
@@ -32,18 +31,9 @@ class JobSerializer(serializers.ModelSerializer):
         )
 
     def validate(self, validated_data):
-        job_source = validated_data.get("job_source")
-        job_link = validated_data.get("link")
-        self._validate_job_source_link(job_source, job_link)
+        validate_job_link_by_source(validated_data)
 
         return validated_data
-
-    def _validate_job_source_link(self, job_source, job_link):
-        if not job_source or not job_link:
-            return
-
-        if not re.match(job_source.link_regex, job_link):
-            raise serializers.ValidationError(f"Not a valid URL for the selected Job Source: {job_source}")
 
 
 class TechStackSerializer(serializers.HyperlinkedModelSerializer):
